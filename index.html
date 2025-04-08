@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>营养品全品价值链分析</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1e40af;
+            --accent-color: #f59e0b;
+            --text-color-light: #1f2937;
+            --bg-color-light: #ffffff;
+            --card-bg-light: #f3f4f6;
+            --text-color-dark: #e5e7eb;
+            --bg-color-dark: #111827;
+            --card-bg-dark: #1f2937;
+        }
+
+        .light {
+            --text-color: var(--text-color-light);
+            --bg-color: var(--bg-color-light);
+            --card-bg: var(--card-bg-light);
+        }
+
+        .dark {
+            --text-color: var(--text-color-dark);
+            --bg-color: var(--bg-color-dark);
+            --card-bg: var(--card-bg-dark);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .dark th, .dark td {
+            border-color: #374151;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .highlight-row {
+            background-color: rgba(249, 168, 37, 0.2);
+        }
+
+        .highlight-cell {
+            background-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab {
+            cursor: pointer;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .tab:hover:not(.active) {
+            border-bottom: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <header class="py-12 bg-gradient-to-r from-blue-500 to-blue-700 text-white">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-4 text-center">营养品全品价值链分析</h1>
+            <p class="text-xl text-center">全面解析营养品价值链与产品卖点</p>
+        </div>
+    </header>
+
+    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex overflow-x-auto whitespace-nowrap py-2">
+                <div class="tab active" data-tab="value-chain">价值链分析</div>
+                <div class="tab" data-tab="liquid-series">液体系列价值链</div>
+                <div class="tab" data-tab="product-intro">产品介绍</div>
+                <div class="tab" data-tab="order-policy">订货政策</div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- 价值链分析 -->
+        <section id="value-chain" class="tab-content active fade-in">
+            <div class="card p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4">营养品全品价值链分析</h2>
+                <p class="mb-4">下表展示了不同类型营养品的价格结构、利润分配和销售策略分析：</p>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="2">类别表</th>
+                                <th colspan="3">全分销大单品</th>
+                                <th colspan="2">区域单品</th>
+                                <th colspan="5">高频爆品</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>品类</th>
+                                <th>原味奶粉</th>
+                                <th>钙味奶粉</th>
+                                <th>超级金装(高阶版)</th>
+                                <th>多种维B</th>
+                                <th>多开味B</th>
+                                <th>乳铁</th>
+                                <th>液体DHA</th>
+                                <th>液体钙</th>
+                                <th>DHA钙维D</th>
+                                <th>钙铁锌D</th>
+                                <th>软糖</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="8">终端</td>
+                                <td>规格</td>
+                                <td>48袋</td>
+                                <td>48袋</td>
+                                <td class="highlight-cell">48袋</td>
+                                <td>42袋</td>
+                                <td>42袋</td>
+                                <td>30条</td>
+                                <td class="highlight-cell">36条</td>
+                                <td>30条</td>
+                                <td>40粒</td>
+                                <td>36粒</td>
+                                <td>40粒</td>
+                            </tr>
+                            <tr>
+                                <td>RSP</td>
+                                <td>338</td>
+                                <td>338</td>
+                                <td class="highlight-cell">368</td>
+                                <td>338</td>
+                                <td>338</td>
+                                <td>338</td>
+                                <td class="highlight-cell">358</td>
+                                <td>238</td>
+                                <td>258</td>
+                                <td>158</td>
+                                <td>148</td>
+                            </tr>
+                            <tr>
+                                <td>ASP</td>
+                                <td>250</td>
+                                <td>250</td>
+                                <td class="highlight-cell">298</td>
+                                <td>250</td>
+                                <td>250</td>
+                                <td>265</td>
+                                <td class="highlight-cell">286.4</td>
+                                <td>190.4</td>
+                                <td>194</td>
+                                <td>77.5</td>
+                                <td>60</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>毛利率</td>
+                                <td>26%</td>
+                                <td>26%</td>
+                                <td>19%</td>
+                                <td>26%</td>
+                                <td>26%</td>
+                                <td>22%</td>
+                                <td>20%</td>
+                                <td>20%</td>
+                                <td>25%</td>
+                                <td>51%</td>
+                                <td>59%</td>
+                            </tr>
+                            <tr>
+                                <td>一级经销商折扣</td>
+                                <td>74%</td>
+                                <td>74%</td>
+                                <td>74%</td>
+                                <td>74%</td>
+                                <td>74%</td>
+                                <td>54%</td>
+                                <td>54%</td>
+                                <td>54%</td>
+                                <td>54%</td>
+                                <td>54%</td>
+                                <td>64%</td>
+                            </tr>
+                            <tr>
+                                <td>门店进货折扣</td>
+                                <td>80%</td>
+                                <td>80%</td>
+                                <td>80%</td>
+                                <td>80%</td>
+                                <td>80%</td>
+                                <td>60%</td>
+                                <td>60%</td>
+                                <td>60%</td>
+                                <td>60%</td>
+                                <td>60%</td>
+                                <td>70%</td>
+                            </tr>
+                            <tr>
+                                <td>一级经销商价格</td>
+                                <td>250.12</td>
+                                <td>250.12</td>
+                                <td class="highlight-cell">272.32</td>
+                                <td>250.12</td>
+                                <td>250.12</td>
+                                <td>214.92</td>
+                                <td>193.32</td>
+                                <td>128.52</td>
+                                <td>144.72</td>
+                                <td>83.7</td>
+                                <td>94.72</td>
+                            </tr>
+                            <tr>
+                                <td>终端进货价</td>
+                                <td>270.4</td>
+                                <td>270.4</td>
+                                <td class="highlight-cell">294.4</td>
+                                <td>270.4</td>
+                                <td>270.4</td>
+                                <td>238.8</td>
+                                <td>214.8</td>
+                                <td>142.8</td>
+                                <td>160.8</td>
+                                <td>93</td>
+                                <td>103.6</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">进货政策</td>
+                                <td>随货4送1</td>
+                                <td>随货4送1</td>
+                                <td>随货2送1</td>
+                                <td>随货2送1</td>
+                                <td>随货2送1</td>
+                                <td>随货3送1</td>
+                                <td>随货3送1</td>
+                                <td>随货3送1</td>
+                                <td>随货3送1</td>
+                                <td>随货3送1</td>
+                                <td>随货3送1</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="11">经销商</td>
+                                <td>实际进货价格</td>
+                                <td>200.1</td>
+                                <td>200.1</td>
+                                <td class="highlight-cell">181.5</td>
+                                <td>166.7</td>
+                                <td>166.7</td>
+                                <td>161.2</td>
+                                <td>145.0</td>
+                                <td>96.4</td>
+                                <td>96.5</td>
+                                <td>55.8</td>
+                                <td>47.4</td>
+                            </tr>
+                            <tr>
+                                <td>实际进货折扣</td>
+                                <td>59%</td>
+                                <td>59%</td>
+                                <td>49%</td>
+                                <td>49%</td>
+                                <td>49%</td>
+                                <td>41%</td>
+                                <td>41%</td>
+                                <td>41%</td>
+                                <td>38%</td>
+                                <td>36%</td>
+                                <td>32%</td>
+                            </tr>
+                            <tr>
+                                <td>经销商毛利额</td>
+                                <td>20.2</td>
+                                <td>20.2</td>
+                                <td class="highlight-cell">18.4</td>
+                                <td>16.9</td>
+                                <td>16.9</td>
+                                <td>21.1</td>
+                                <td>19</td>
+                                <td>12.6</td>
+                                <td>12.6</td>
+                                <td>7.3</td>
+                                <td>5.4</td>
+                            </tr>
+                            <tr>
+                                <td>实际进货价格</td>
+                                <td>216.3</td>
+                                <td>216.3</td>
+                                <td class="highlight-cell">196.3</td>
+                                <td>180.3</td>
+                                <td>180.3</td>
+                                <td>179.1</td>
+                                <td>161.1</td>
+                                <td>107.1</td>
+                                <td>107.2</td>
+                                <td>62.0</td>
+                                <td>51.8</td>
+                            </tr>
+                            <tr>
+                                <td>实际进货折扣</td>
+                                <td>64%</td>
+                                <td>64%</td>
+                                <td>53%</td>
+                                <td>53%</td>
+                                <td>53%</td>
+                                <td>45%</td>
+                                <td>45%</td>
+                                <td>45%</td>
+                                <td>40%</td>
+                                <td>40%</td>
+                                <td>35%</td>
+                            </tr>
+                            <tr>
+                                <td>终端毛利额</td>
+                                <td>80.6</td>
+                                <td>80.6</td>
+                                <td class="highlight-cell">124.5</td>
+                                <td>116.4</td>
+                                <td>116.4</td>
+                                <td>150.7</td>
+                                <td>128.5</td>
+                                <td>87.2</td>
+                                <td>109.6</td>
+                                <td>64.7</td>
+                                <td>47.2</td>
+                            </tr>
+                            <tr>
+                                <td>毛利率</td>
+                                <td>34.1</td>
+                                <td>34.1</td>
+                                <td>38.1</td>
+                                <td>30.1</td>
+                                <td>30.1</td>
+                                <td>112.8</td>
+                                <td>107.4</td>
+                                <td>71.4</td>
+                                <td>81.8</td>
+                                <td>54.3</td>
+                                <td>47.2</td>
+                            </tr>
+                            <tr>
+                                <td>提货费用</td>
+                                <td>15</td>
+                                <td>15</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>20</td>
+                                <td>18</td>
+                                <td>12</td>
+                                <td>5</td>
+                                <td>5</td>
+                                <td>0</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>实际进货价</td>
+                                <td>201.3</td>
+                                <td>201.3</td>
+                                <td>176.3</td>
+                                <td>170.3</td>
+                                <td>170.3</td>
+                                <td>159.1</td>
+                                <td>161.1</td>
+                                <td>107.1</td>
+                                <td>102.2</td>
+                                <td>57.0</td>
+                                <td>51.8</td>
+                            </tr>
+                            <tr>
+                                <td>门店折扣</td>
+                                <td>60%</td>
+                                <td>60%</td>
+                                <td>48%</td>
+                                <td>50%</td>
+                                <td>50%</td>
+                                <td>40%</td>
+                                <td>45%</td>
+                                <td>45%</td>
+                                <td>38%</td>
+                                <td>36%</td>
+                                <td>35%</td>
+                            </tr>
+                            <tr>
+                                <td>毛利率</td>
+                                <td>34.31%</td>
+                                <td>34.31%</td>
+                                <td>67.60%</td>
+                                <td>58.91%</td>
+                                <td>58.91%</td>
+                                <td>87.30%</td>
+                                <td>33.33%</td>
+                                <td>33.33%</td>
+                                <td>57.24%</td>
+                                <td>63.16%</td>
+                                <td>59.54%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-4">
+                    <h3 class="text-xl font-semibold mb-2">价值链分析要点</h3>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li>超级金装(高阶版)在终端RSP和ASP方面表现突出，分别达到368元和298元</li>
+                        <li>液体DHA在高频爆品中价格较高，RSP达358元</li>
+                        <li>软糖产品在终端毛利率方面表现最佳，达59%</li>
+                        <li>经销商层面，多种维B和多开味B的实际进货折扣相同，均为49%</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 液体系列价值链 -->
+        <section id="liquid-series" class="tab-content fade-in">
+            <div class="card p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4">合生元液体系列新品供价表（适用东莞/惠州）</h2>
+                <p class="mb-4">液体DHA和液体钙产品的详细价格结构和折扣政策：</p>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>品类</th>
+                                <th>液体DHA</th>
+                                <th>液体钙</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>规格</td>
+                                <td>36条</td>
+                                <td>30条</td>
+                            </tr>
+                            <tr>
+                                <td>建议零售价</td>
+                                <td>358</td>
+                                <td>238</td>
+                            </tr>
+                            <tr>
+                                <td>建议折扣后价格</td>
+                                <td>268.5</td>
+                                <td>178.5</td>
+                            </tr>
+                            <tr>
+                                <td>一级经销商折扣</td>
+                                <td>54%</td>
+                                <td>54%</td>
+                            </tr>
+                            <tr>
+                                <td>门店进货折扣</td>
+                                <td>65%</td>
+                                <td>65%</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>提价费用</td>
+                                <td>18</td>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>一级经销商价格</td>
+                                <td>193.32</td>
+                                <td>128.52</td>
+                            </tr>
+                            <tr>
+                                <td>终端进货价</td>
+                                <td>232.7</td>
+                                <td>154.7</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>进货政策</td>
+                                <td>随货3送1</td>
+                                <td>随货3送1</td>
+                            </tr>
+                            <tr>
+                                <td>经销商实际进货价格</td>
+                                <td>144.99</td>
+                                <td>96.39</td>
+                            </tr>
+                            <tr>
+                                <td>经销商实际进货折扣</td>
+                                <td>41%</td>
+                                <td>41%</td>
+                            </tr>
+                            <tr>
+                                <td>经销商毛利额</td>
+                                <td>19</td>
+                                <td>12.6</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>门店实际进货价格</td>
+                                <td>174.525</td>
+                                <td>116.025</td>
+                            </tr>
+                            <tr>
+                                <td>门店实际进货折扣</td>
+                                <td>49%</td>
+                                <td>49%</td>
+                            </tr>
+                            <tr>
+                                <td>终端毛利额</td>
+                                <td>93.975</td>
+                                <td>62.475</td>
+                            </tr>
+                            <tr>
+                                <td>毛利率</td>
+                                <td>54%</td>
+                                <td>54%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-4">
+                    <h3 class="text-xl font-semibold mb-2">液体系列价值链要点</h3>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li>液体DHA和液体钙均采用"随货3送1"的进货政策</li>
+                        <li>两种产品的终端毛利率相同，均为54%</li>
+                        <li>液体DHA的建议零售价(358元)明显高于液体钙(238元)</li>
+                        <li>经销商实际进货折扣两者相同，均为41%</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品介绍 -->
+        <section id="product-intro" class="tab-content fade-in">
+            <div class="card p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4">产品介绍一页纸</h2>
+                <p class="mb-4">各产品系列的详细介绍、功效与卖点：</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div class="card p-4 hover:shadow-lg transition-all">
+                        <h3 class="text-lg font-bold mb-2">超级金装系列</h3>
+                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 48袋/盒</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 益生菌、膳食纤维、DHA、ARA等</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 调节肠道菌群，促进营养吸收，提高免疫力</p>
+                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 368元</p>
+                        <div class="mt-3 text-sm">
+                            <p class="font-semibold">核心卖点:</p>
+                            <ul class="list-disc pl-4 mt-1">
+                                <li>高阶配方，营养更全面</li>
+                                <li>特有益生菌组合，调节肠道健康</li>
+                                <li>添加DHA和ARA，促进大脑发育</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-4 hover:shadow-lg transition-all">
+                        <h3 class="text-lg font-bold mb-2">多种维B系列</h3>
+                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 42袋/盒</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 维生素B族、矿物质</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 提供多种B族维生素，促进能量代谢</p>
+                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 338元</p>
+                        <div class="mt-3 text-sm">
+                            <p class="font-semibold">核心卖点:</p>
+                            <ul class="list-disc pl-4 mt-1">
+                                <li>全面的B族维生素配方</li>
+                                <li>促进能量代谢，缓解疲劳</li>
+                                <li>适合学龄儿童日常补充</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-4 hover:shadow-lg transition-all">
+                        <h3 class="text-lg font-bold mb-2">液体DHA系列</h3>
+                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 36条/盒</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> DHA、EPA、藻油提取物</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 促进大脑发育，提高认知能力</p>
+                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 358元</p>
+                        <div class="mt-3 text-sm">
+                            <p class="font-semibold">核心卖点:</p>
+                            <ul class="list-disc pl-4 mt-1">
+                                <li>液体形式，吸收更好</li>
+                                <li>高纯度DHA，来源于深海鱼油</li>
+                                <li>无腥味，儿童易接受</li>
+                                <li>促进大脑发育和视力发展</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-4 hover:shadow-lg transition-all">
+                        <h3 class="text-lg font-bold mb-2">液体钙系列</h3>
+                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 30条/盒</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 钙、维生素D、锌</p
+                                                    <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 钙、维生素D、锌</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 补充钙质，促进骨骼发育</p>
+                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 238元</p>
+                        <div class="mt-3 text-sm">
+                            <p class="font-semibold">核心卖点:</p>
+                            <ul class="list-disc pl-4 mt-1">
+                                <li>液体形式，吸收率高达98%</li>
+                                <li>添加维生素D，促进钙吸收</li>
+                                <li>甜橙口味，儿童喜爱</li>
+                                <li>适合3-12岁儿童骨骼发育关键期</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-4 hover:shadow-lg transition-all">
+                        <h3 class="text-lg font-bold mb-2">软糖系列</h3>
+                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 40粒/瓶</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 多种维生素、矿物质</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 补充多种维生素和矿物质</p>
+                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 148元</p>
+                        <div class="mt-3 text-sm">
+                            <p class="font-semibold">核心卖点:</p>
+                            <ul class="list-disc pl-4 mt-1">
+                                <li>软糖形式，美味易吃</li>
+                                <li>多种水果口味，儿童喜爱</li>
+                                <li>无添加色素和防腐剂</li>
+                                <li>适合挑食儿童的营养补充</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-4 hover:shadow-lg transition-all">
+                        <h3 class="text-lg font-bold mb-2">乳铁蛋白系列</h3>
+                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 30条/盒</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 乳铁蛋白、益生菌</p>
+                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 增强免疫力，保护肠道健康</p>
+                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 338元</p>
+                        <div class="mt-3 text-sm">
+                            <p class="font-semibold">核心卖点:</p>
+                            <ul class="list-disc pl-4 mt-1">
+                                <li>高纯度乳铁蛋白，增强免疫力</li>
+                                <li>添加益生菌，保护肠道健康</li>
+                                <li>适合免疫力低下的儿童</li>
+                                <li>特别适合秋冬季节使用</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 订货政策 -->
+        <section id="order-policy" class="tab-content fade-in">
+            <div class="card p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4">M4营养品订货政策</h2>
+                <p class="mb-4">以下是营养品系列的详细订货政策和促销活动：</p>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">基础订货政策</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>产品系列</th>
+                                        <th>基础政策</th>
+                                        <th>适用对象</th>
+                                        <th>备注</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>奶粉系列</td>
+                                        <td>随货4送1</td>
+                                        <td>全部经销商</td>
+                                        <td>原味奶粉、钙味奶粉适用</td>
+                                    </tr>
+                                    <tr>
+                                        <td>超级金装系列</td>
+                                        <td>随货2送1</td>
+                                        <td>全部经销商</td>
+                                        <td>高阶版产品</td>
+                                    </tr>
+                                    <tr>
+                                        <td>维B系列</td>
+                                        <td>随货2送1</td>
+                                        <td>全部经销商</td>
+                                        <td>多种维B、多开味B适用</td>
+                                    </tr>
+                                    <tr class="highlight-row">
+                                        <td>液体系列</td>
+                                        <td>随货3送1</td>
+                                        <td>全部经销商</td>
+                                        <td>液体DHA、液体钙适用</td>
+                                    </tr>
+                                    <tr>
+                                        <td>其他系列</td>
+                                        <td>随货3送1</td>
+                                        <td>全部经销商</td>
+                                        <td>乳铁、DHA钙维D、钙铁锌D、软糖适用</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">特殊促销政策</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>活动名称</th>
+                                        <th>活动内容</th>
+                                        <th>活动时间</th>
+                                        <th>适用产品</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>开学季特惠</td>
+                                        <td>买2送1 + 赠品</td>
+                                        <td>8月15日-9月15日</td>
+                                        <td>全系列产品</td>
+                                    </tr>
+                                    <tr>
+                                        <td>双11促销</td>
+                                        <td>满1000减150</td>
+                                        <td>11月1日-11月15日</td>
+                                        <td>全系列产品</td>
+                                    </tr>
+                                    <tr>
+                                        <td>年终大促</td>
+                                        <td>满2000减300</td>
+                                        <td>12月15日-1月15日</td>
+                                        <td>全系列产品</td>
+                                    </tr>
+                                    <tr class="highlight-row">
+                                        <td>新品上市</td>
+                                        <td>首单买3送1</td>
+                                        <td>上市后30天内</td>
+                                        <td>新上市产品</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">订货流程</h3>
+                        <ol class="list-decimal pl-6 space-y-2">
+                            <li>经销商通过官方订货系统或客服电话下单</li>
+                            <li>订单确认后24小时内完成审核</li>
+                            <li>审核通过后48小时内发货</li>
+                            <li>货到付款或预付款方式结算</li>
+                            <li>签收后7天内可申请退换货（产品质量问题）</li>
+                        </ol>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">注意事项</h3>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>所有促销活动不可与基础政策叠加使用</li>
+                            <li>特殊促销期间，以促销政策为准</li>
+                            <li>订货数量需为最小包装单位的整数倍</li>
+                            <li>运费政策：单次订货金额满3000元免运费</li>
+                            <li>退换货需保证产品包装完好，未拆封</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-100 dark:bg-gray-800 py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-lg font-bold mb-2">作者信息</h3>
+                    <p>作者姓名: 健合-周航</p>
+                    <p>© 2023 版权所有</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-2">联系方式</h3>
+                    <p>邮箱: zhouhang@example.com</p>
+                    <p>电话: 123-456-7890</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+        
+        // 检查系统偏好
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            htmlElement.classList.remove('light');
+            htmlElement.classList.add('dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+        
+        // 标签页切换功能
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // 移除所有活动标签和内容
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // 添加活动类到当前标签和内容
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+                
+                // 添加淡入动画
+                document.getElementById(tabId).classList.add('fade-in');
+                setTimeout(() => {
+                    document.getElementById(tabId).classList.remove('fade-in');
+                }, 800);
+            });
+        });
+        
+        // 懒加载功能
+        document.addEventListener('DOMContentLoaded', () => {
+            const lazyLoadSections = document.querySelectorAll('.tab-content:not(.active)');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            lazyLoadSections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
