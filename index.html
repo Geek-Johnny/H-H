@@ -1,926 +1,686 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="light">
+<html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>营养品全品价值链分析</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #3b82f6;
-            --secondary-color: #1e40af;
-            --accent-color: #f59e0b;
-            --text-color-light: #1f2937;
-            --bg-color-light: #ffffff;
-            --card-bg-light: #f3f4f6;
-            --text-color-dark: #e5e7eb;
-            --bg-color-dark: #111827;
-            --card-bg-dark: #1f2937;
-        }
-
-        .light {
-            --text-color: var(--text-color-light);
-            --bg-color: var(--bg-color-light);
-            --card-bg: var(--card-bg-light);
-        }
-
-        .dark {
-            --text-color: var(--text-color-dark);
-            --bg-color: var(--bg-color-dark);
-            --card-bg: var(--card-bg-dark);
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .table-container {
-            overflow-x: auto;
-            margin-bottom: 1.5rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 0.75rem;
-            text-align: center;
-            border: 1px solid #e5e7eb;
-        }
-
-        .dark th, .dark td {
-            border-color: #374151;
-        }
-
-        th {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .highlight-row {
-            background-color: rgba(249, 168, 37, 0.2);
-        }
-
-        .highlight-cell {
-            background-color: rgba(239, 68, 68, 0.2);
-        }
-
-        .fade-in {
-            animation: fadeIn 0.8s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 100;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            width: 3rem;
-            height: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .theme-toggle:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .tab {
-            cursor: pointer;
-            padding: 0.75rem 1.5rem;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .tab.active {
-            border-bottom: 2px solid var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .tab:hover:not(.active) {
-            border-bottom: 2px solid var(--accent-color);
-            color: var(--accent-color);
-        }
-    </style>
-</head>
-<body class="min-h-screen">
-    <div class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-    </div>
-
-    <header class="py-12 bg-gradient-to-r from-blue-500 to-blue-700 text-white">
-        <div class="container mx-auto px-4">
-            <h1 class="text-4xl font-bold mb-4 text-center">营养品全品价值链分析</h1>
-            <p class="text-xl text-center">全面解析营养品价值链与产品卖点</p>
-        </div>
-    </header>
-
-    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-10">
-        <div class="container mx-auto px-4">
-            <div class="flex overflow-x-auto whitespace-nowrap py-2">
-                <div class="tab active" data-tab="value-chain">价值链分析</div>
-                <div class="tab" data-tab="liquid-series">液体系列价值链</div>
-                <div class="tab" data-tab="product-intro">产品介绍</div>
-                <div class="tab" data-tab="order-policy">订货政策</div>
-            </div>
-        </div>
-    </nav>
-
-    <main class="container mx-auto px-4 py-8">
-        <!-- 价值链分析 -->
-        <section id="value-chain" class="tab-content active fade-in">
-            <div class="card p-6 mb-8">
-                <h2 class="text-2xl font-bold mb-4">营养品全品价值链分析</h2>
-                <p class="mb-4">下表展示了不同类型营养品的价格结构、利润分配和销售策略分析：</p>
-                
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th colspan="2">类别表</th>
-                                <th colspan="3">全分销大单品</th>
-                                <th colspan="2">区域单品</th>
-                                <th colspan="5">高频爆品</th>
-                            </tr>
-                            <tr>
-                                <th></th>
-                                <th>品类</th>
-                                <th>原味奶粉</th>
-                                <th>钙味奶粉</th>
-                                <th>超级金装(高阶版)</th>
-                                <th>多种维B</th>
-                                <th>多开味B</th>
-                                <th>乳铁</th>
-                                <th>液体DHA</th>
-                                <th>液体钙</th>
-                                <th>DHA钙维D</th>
-                                <th>钙铁锌D</th>
-                                <th>软糖</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td rowspan="8">终端</td>
-                                <td>规格</td>
-                                <td>48袋</td>
-                                <td>48袋</td>
-                                <td class="highlight-cell">48袋</td>
-                                <td>42袋</td>
-                                <td>42袋</td>
-                                <td>30条</td>
-                                <td class="highlight-cell">36条</td>
-                                <td>30条</td>
-                                <td>40粒</td>
-                                <td>36粒</td>
-                                <td>40粒</td>
-                            </tr>
-                            <tr>
-                                <td>RSP</td>
-                                <td>338</td>
-                                <td>338</td>
-                                <td class="highlight-cell">368</td>
-                                <td>338</td>
-                                <td>338</td>
-                                <td>338</td>
-                                <td class="highlight-cell">358</td>
-                                <td>238</td>
-                                <td>258</td>
-                                <td>158</td>
-                                <td>148</td>
-                            </tr>
-                            <tr>
-                                <td>ASP</td>
-                                <td>250</td>
-                                <td>250</td>
-                                <td class="highlight-cell">298</td>
-                                <td>250</td>
-                                <td>250</td>
-                                <td>265</td>
-                                <td class="highlight-cell">286.4</td>
-                                <td>190.4</td>
-                                <td>194</td>
-                                <td>77.5</td>
-                                <td>60</td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td>毛利率</td>
-                                <td>26%</td>
-                                <td>26%</td>
-                                <td>19%</td>
-                                <td>26%</td>
-                                <td>26%</td>
-                                <td>22%</td>
-                                <td>20%</td>
-                                <td>20%</td>
-                                <td>25%</td>
-                                <td>51%</td>
-                                <td>59%</td>
-                            </tr>
-                            <tr>
-                                <td>一级经销商折扣</td>
-                                <td>74%</td>
-                                <td>74%</td>
-                                <td>74%</td>
-                                <td>74%</td>
-                                <td>74%</td>
-                                <td>54%</td>
-                                <td>54%</td>
-                                <td>54%</td>
-                                <td>54%</td>
-                                <td>54%</td>
-                                <td>64%</td>
-                            </tr>
-                            <tr>
-                                <td>门店进货折扣</td>
-                                <td>80%</td>
-                                <td>80%</td>
-                                <td>80%</td>
-                                <td>80%</td>
-                                <td>80%</td>
-                                <td>60%</td>
-                                <td>60%</td>
-                                <td>60%</td>
-                                <td>60%</td>
-                                <td>60%</td>
-                                <td>70%</td>
-                            </tr>
-                            <tr>
-                                <td>一级经销商价格</td>
-                                <td>250.12</td>
-                                <td>250.12</td>
-                                <td class="highlight-cell">272.32</td>
-                                <td>250.12</td>
-                                <td>250.12</td>
-                                <td>214.92</td>
-                                <td>193.32</td>
-                                <td>128.52</td>
-                                <td>144.72</td>
-                                <td>83.7</td>
-                                <td>94.72</td>
-                            </tr>
-                            <tr>
-                                <td>终端进货价</td>
-                                <td>270.4</td>
-                                <td>270.4</td>
-                                <td class="highlight-cell">294.4</td>
-                                <td>270.4</td>
-                                <td>270.4</td>
-                                <td>238.8</td>
-                                <td>214.8</td>
-                                <td>142.8</td>
-                                <td>160.8</td>
-                                <td>93</td>
-                                <td>103.6</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">进货政策</td>
-                                <td>随货4送1</td>
-                                <td>随货4送1</td>
-                                <td>随货2送1</td>
-                                <td>随货2送1</td>
-                                <td>随货2送1</td>
-                                <td>随货3送1</td>
-                                <td>随货3送1</td>
-                                <td>随货3送1</td>
-                                <td>随货3送1</td>
-                                <td>随货3送1</td>
-                                <td>随货3送1</td>
-                            </tr>
-                            <tr>
-                                <td rowspan="11">经销商</td>
-                                <td>实际进货价格</td>
-                                <td>200.1</td>
-                                <td>200.1</td>
-                                <td class="highlight-cell">181.5</td>
-                                <td>166.7</td>
-                                <td>166.7</td>
-                                <td>161.2</td>
-                                <td>145.0</td>
-                                <td>96.4</td>
-                                <td>96.5</td>
-                                <td>55.8</td>
-                                <td>47.4</td>
-                            </tr>
-                            <tr>
-                                <td>实际进货折扣</td>
-                                <td>59%</td>
-                                <td>59%</td>
-                                <td>49%</td>
-                                <td>49%</td>
-                                <td>49%</td>
-                                <td>41%</td>
-                                <td>41%</td>
-                                <td>41%</td>
-                                <td>38%</td>
-                                <td>36%</td>
-                                <td>32%</td>
-                            </tr>
-                            <tr>
-                                <td>经销商毛利额</td>
-                                <td>20.2</td>
-                                <td>20.2</td>
-                                <td class="highlight-cell">18.4</td>
-                                <td>16.9</td>
-                                <td>16.9</td>
-                                <td>21.1</td>
-                                <td>19</td>
-                                <td>12.6</td>
-                                <td>12.6</td>
-                                <td>7.3</td>
-                                <td>5.4</td>
-                            </tr>
-                            <tr>
-                                <td>实际进货价格</td>
-                                <td>216.3</td>
-                                <td>216.3</td>
-                                <td class="highlight-cell">196.3</td>
-                                <td>180.3</td>
-                                <td>180.3</td>
-                                <td>179.1</td>
-                                <td>161.1</td>
-                                <td>107.1</td>
-                                <td>107.2</td>
-                                <td>62.0</td>
-                                <td>51.8</td>
-                            </tr>
-                            <tr>
-                                <td>实际进货折扣</td>
-                                <td>64%</td>
-                                <td>64%</td>
-                                <td>53%</td>
-                                <td>53%</td>
-                                <td>53%</td>
-                                <td>45%</td>
-                                <td>45%</td>
-                                <td>45%</td>
-                                <td>40%</td>
-                                <td>40%</td>
-                                <td>35%</td>
-                            </tr>
-                            <tr>
-                                <td>终端毛利额</td>
-                                <td>80.6</td>
-                                <td>80.6</td>
-                                <td class="highlight-cell">124.5</td>
-                                <td>116.4</td>
-                                <td>116.4</td>
-                                <td>150.7</td>
-                                <td>128.5</td>
-                                <td>87.2</td>
-                                <td>109.6</td>
-                                <td>64.7</td>
-                                <td>47.2</td>
-                            </tr>
-                            <tr>
-                                <td>毛利率</td>
-                                <td>34.1</td>
-                                <td>34.1</td>
-                                <td>38.1</td>
-                                <td>30.1</td>
-                                <td>30.1</td>
-                                <td>112.8</td>
-                                <td>107.4</td>
-                                <td>71.4</td>
-                                <td>81.8</td>
-                                <td>54.3</td>
-                                <td>47.2</td>
-                            </tr>
-                            <tr>
-                                <td>提货费用</td>
-                                <td>15</td>
-                                <td>15</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>20</td>
-                                <td>18</td>
-                                <td>12</td>
-                                <td>5</td>
-                                <td>5</td>
-                                <td>0</td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td>实际进货价</td>
-                                <td>201.3</td>
-                                <td>201.3</td>
-                                <td>176.3</td>
-                                <td>170.3</td>
-                                <td>170.3</td>
-                                <td>159.1</td>
-                                <td>161.1</td>
-                                <td>107.1</td>
-                                <td>102.2</td>
-                                <td>57.0</td>
-                                <td>51.8</td>
-                            </tr>
-                            <tr>
-                                <td>门店折扣</td>
-                                <td>60%</td>
-                                <td>60%</td>
-                                <td>48%</td>
-                                <td>50%</td>
-                                <td>50%</td>
-                                <td>40%</td>
-                                <td>45%</td>
-                                <td>45%</td>
-                                <td>38%</td>
-                                <td>36%</td>
-                                <td>35%</td>
-                            </tr>
-                            <tr>
-                                <td>毛利率</td>
-                                <td>34.31%</td>
-                                <td>34.31%</td>
-                                <td>67.60%</td>
-                                <td>58.91%</td>
-                                <td>58.91%</td>
-                                <td>87.30%</td>
-                                <td>33.33%</td>
-                                <td>33.33%</td>
-                                <td>57.24%</td>
-                                <td>63.16%</td>
-                                <td>59.54%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="mt-4">
-                    <h3 class="text-xl font-semibold mb-2">价值链分析要点</h3>
-                    <ul class="list-disc pl-6 space-y-2">
-                        <li>超级金装(高阶版)在终端RSP和ASP方面表现突出，分别达到368元和298元</li>
-                        <li>液体DHA在高频爆品中价格较高，RSP达358元</li>
-                        <li>软糖产品在终端毛利率方面表现最佳，达59%</li>
-                        <li>经销商层面，多种维B和多开味B的实际进货折扣相同，均为49%</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- 液体系列价值链 -->
-        <section id="liquid-series" class="tab-content fade-in">
-            <div class="card p-6 mb-8">
-                <h2 class="text-2xl font-bold mb-4">合生元液体系列新品供价表（适用东莞/惠州）</h2>
-                <p class="mb-4">液体DHA和液体钙产品的详细价格结构和折扣政策：</p>
-                
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>品类</th>
-                                <th>液体DHA</th>
-                                <th>液体钙</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>规格</td>
-                                <td>36条</td>
-                                <td>30条</td>
-                            </tr>
-                            <tr>
-                                <td>建议零售价</td>
-                                <td>358</td>
-                                <td>238</td>
-                            </tr>
-                            <tr>
-                                <td>建议折扣后价格</td>
-                                <td>268.5</td>
-                                <td>178.5</td>
-                            </tr>
-                            <tr>
-                                <td>一级经销商折扣</td>
-                                <td>54%</td>
-                                <td>54%</td>
-                            </tr>
-                            <tr>
-                                <td>门店进货折扣</td>
-                                <td>65%</td>
-                                <td>65%</td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td>提价费用</td>
-                                <td>18</td>
-                                <td>12</td>
-                            </tr>
-                            <tr>
-                                <td>一级经销商价格</td>
-                                <td>193.32</td>
-                                <td>128.52</td>
-                            </tr>
-                            <tr>
-                                <td>终端进货价</td>
-                                <td>232.7</td>
-                                <td>154.7</td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td>进货政策</td>
-                                <td>随货3送1</td>
-                                <td>随货3送1</td>
-                            </tr>
-                            <tr>
-                                <td>经销商实际进货价格</td>
-                                <td>144.99</td>
-                                <td>96.39</td>
-                            </tr>
-                            <tr>
-                                <td>经销商实际进货折扣</td>
-                                <td>41%</td>
-                                <td>41%</td>
-                            </tr>
-                            <tr>
-                                <td>经销商毛利额</td>
-                                <td>19</td>
-                                <td>12.6</td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td>门店实际进货价格</td>
-                                <td>174.525</td>
-                                <td>116.025</td>
-                            </tr>
-                            <tr>
-                                <td>门店实际进货折扣</td>
-                                <td>49%</td>
-                                <td>49%</td>
-                            </tr>
-                            <tr>
-                                <td>终端毛利额</td>
-                                <td>93.975</td>
-                                <td>62.475</td>
-                            </tr>
-                            <tr>
-                                <td>毛利率</td>
-                                <td>54%</td>
-                                <td>54%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="mt-4">
-                    <h3 class="text-xl font-semibold mb-2">液体系列价值链要点</h3>
-                    <ul class="list-disc pl-6 space-y-2">
-                        <li>液体DHA和液体钙均采用"随货3送1"的进货政策</li>
-                        <li>两种产品的终端毛利率相同，均为54%</li>
-                        <li>液体DHA的建议零售价(358元)明显高于液体钙(238元)</li>
-                        <li>经销商实际进货折扣两者相同，均为41%</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- 产品介绍 -->
-        <section id="product-intro" class="tab-content fade-in">
-            <div class="card p-6 mb-8">
-                <h2 class="text-2xl font-bold mb-4">产品介绍一页纸</h2>
-                <p class="mb-4">各产品系列的详细介绍、功效与卖点：</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div class="card p-4 hover:shadow-lg transition-all">
-                        <h3 class="text-lg font-bold mb-2">超级金装系列</h3>
-                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 48袋/盒</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 益生菌、膳食纤维、DHA、ARA等</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 调节肠道菌群，促进营养吸收，提高免疫力</p>
-                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 368元</p>
-                        <div class="mt-3 text-sm">
-                            <p class="font-semibold">核心卖点:</p>
-                            <ul class="list-disc pl-4 mt-1">
-                                <li>高阶配方，营养更全面</li>
-                                <li>特有益生菌组合，调节肠道健康</li>
-                                <li>添加DHA和ARA，促进大脑发育</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="card p-4 hover:shadow-lg transition-all">
-                        <h3 class="text-lg font-bold mb-2">多种维B系列</h3>
-                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 42袋/盒</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 维生素B族、矿物质</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 提供多种B族维生素，促进能量代谢</p>
-                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 338元</p>
-                        <div class="mt-3 text-sm">
-                            <p class="font-semibold">核心卖点:</p>
-                            <ul class="list-disc pl-4 mt-1">
-                                <li>全面的B族维生素配方</li>
-                                <li>促进能量代谢，缓解疲劳</li>
-                                <li>适合学龄儿童日常补充</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="card p-4 hover:shadow-lg transition-all">
-                        <h3 class="text-lg font-bold mb-2">液体DHA系列</h3>
-                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 36条/盒</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> DHA、EPA、藻油提取物</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 促进大脑发育，提高认知能力</p>
-                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 358元</p>
-                        <div class="mt-3 text-sm">
-                            <p class="font-semibold">核心卖点:</p>
-                            <ul class="list-disc pl-4 mt-1">
-                                <li>液体形式，吸收更好</li>
-                                <li>高纯度DHA，来源于深海鱼油</li>
-                                <li>无腥味，儿童易接受</li>
-                                <li>促进大脑发育和视力发展</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="card p-4 hover:shadow-lg transition-all">
-                        <h3 class="text-lg font-bold mb-2">液体钙系列</h3>
-                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 30条/盒</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 钙、维生素D、锌</p
-                                                    <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 钙、维生素D、锌</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 补充钙质，促进骨骼发育</p>
-                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 238元</p>
-                        <div class="mt-3 text-sm">
-                            <p class="font-semibold">核心卖点:</p>
-                            <ul class="list-disc pl-4 mt-1">
-                                <li>液体形式，吸收率高达98%</li>
-                                <li>添加维生素D，促进钙吸收</li>
-                                <li>甜橙口味，儿童喜爱</li>
-                                <li>适合3-12岁儿童骨骼发育关键期</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="card p-4 hover:shadow-lg transition-all">
-                        <h3 class="text-lg font-bold mb-2">软糖系列</h3>
-                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 40粒/瓶</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 多种维生素、矿物质</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 补充多种维生素和矿物质</p>
-                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 148元</p>
-                        <div class="mt-3 text-sm">
-                            <p class="font-semibold">核心卖点:</p>
-                            <ul class="list-disc pl-4 mt-1">
-                                <li>软糖形式，美味易吃</li>
-                                <li>多种水果口味，儿童喜爱</li>
-                                <li>无添加色素和防腐剂</li>
-                                <li>适合挑食儿童的营养补充</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="card p-4 hover:shadow-lg transition-all">
-                        <h3 class="text-lg font-bold mb-2">乳铁蛋白系列</h3>
-                        <p class="text-sm mb-2"><span class="font-semibold">规格:</span> 30条/盒</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要成分:</span> 乳铁蛋白、益生菌</p>
-                        <p class="text-sm mb-2"><span class="font-semibold">主要功效:</span> 增强免疫力，保护肠道健康</p>
-                        <p class="text-sm"><span class="font-semibold">建议零售价:</span> 338元</p>
-                        <div class="mt-3 text-sm">
-                            <p class="font-semibold">核心卖点:</p>
-                            <ul class="list-disc pl-4 mt-1">
-                                <li>高纯度乳铁蛋白，增强免疫力</li>
-                                <li>添加益生菌，保护肠道健康</li>
-                                <li>适合免疫力低下的儿童</li>
-                                <li>特别适合秋冬季节使用</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 订货政策 -->
-        <section id="order-policy" class="tab-content fade-in">
-            <div class="card p-6 mb-8">
-                <h2 class="text-2xl font-bold mb-4">M4营养品订货政策</h2>
-                <p class="mb-4">以下是营养品系列的详细订货政策和促销活动：</p>
-                
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">基础订货政策</h3>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>产品系列</th>
-                                        <th>基础政策</th>
-                                        <th>适用对象</th>
-                                        <th>备注</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>奶粉系列</td>
-                                        <td>随货4送1</td>
-                                        <td>全部经销商</td>
-                                        <td>原味奶粉、钙味奶粉适用</td>
-                                    </tr>
-                                    <tr>
-                                        <td>超级金装系列</td>
-                                        <td>随货2送1</td>
-                                        <td>全部经销商</td>
-                                        <td>高阶版产品</td>
-                                    </tr>
-                                    <tr>
-                                        <td>维B系列</td>
-                                        <td>随货2送1</td>
-                                        <td>全部经销商</td>
-                                        <td>多种维B、多开味B适用</td>
-                                    </tr>
-                                    <tr class="highlight-row">
-                                        <td>液体系列</td>
-                                        <td>随货3送1</td>
-                                        <td>全部经销商</td>
-                                        <td>液体DHA、液体钙适用</td>
-                                    </tr>
-                                    <tr>
-                                        <td>其他系列</td>
-                                        <td>随货3送1</td>
-                                        <td>全部经销商</td>
-                                        <td>乳铁、DHA钙维D、钙铁锌D、软糖适用</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">特殊促销政策</h3>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>活动名称</th>
-                                        <th>活动内容</th>
-                                        <th>活动时间</th>
-                                        <th>适用产品</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>开学季特惠</td>
-                                        <td>买2送1 + 赠品</td>
-                                        <td>8月15日-9月15日</td>
-                                        <td>全系列产品</td>
-                                    </tr>
-                                    <tr>
-                                        <td>双11促销</td>
-                                        <td>满1000减150</td>
-                                        <td>11月1日-11月15日</td>
-                                        <td>全系列产品</td>
-                                    </tr>
-                                    <tr>
-                                        <td>年终大促</td>
-                                        <td>满2000减300</td>
-                                        <td>12月15日-1月15日</td>
-                                        <td>全系列产品</td>
-                                    </tr>
-                                    <tr class="highlight-row">
-                                        <td>新品上市</td>
-                                        <td>首单买3送1</td>
-                                        <td>上市后30天内</td>
-                                        <td>新上市产品</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">订货流程</h3>
-                        <ol class="list-decimal pl-6 space-y-2">
-                            <li>经销商通过官方订货系统或客服电话下单</li>
-                            <li>订单确认后24小时内完成审核</li>
-                            <li>审核通过后48小时内发货</li>
-                            <li>货到付款或预付款方式结算</li>
-                            <li>签收后7天内可申请退换货（产品质量问题）</li>
-                        </ol>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">注意事项</h3>
-                        <ul class="list-disc pl-6 space-y-2">
-                            <li>所有促销活动不可与基础政策叠加使用</li>
-                            <li>特殊促销期间，以促销政策为准</li>
-                            <li>订货数量需为最小包装单位的整数倍</li>
-                            <li>运费政策：单次订货金额满3000元免运费</li>
-                            <li>退换货需保证产品包装完好，未拆封</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-gray-100 dark:bg-gray-800 py-8">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <h3 class="text-lg font-bold mb-2">作者信息</h3>
-                    <p>作者姓名: 健合-周航</p>
-                    <p>© 2023 版权所有</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-2">联系方式</h3>
-                    <p>邮箱: zhouhang@example.com</p>
-                    <p>电话: 123-456-7890</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    <title>合生元营养品完整介绍</title>
+    <!-- TailwindCSS 3.0+ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
-        // 主题切换功能
-        const themeToggle = document.getElementById('themeToggle');
-        const htmlElement = document.documentElement;
-        
-        // 检查系统偏好
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            htmlElement.classList.remove('light');
-            htmlElement.classList.add('dark');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        }
-        
-        themeToggle.addEventListener('click', () => {
-            if (htmlElement.classList.contains('dark')) {
-                htmlElement.classList.remove('dark');
-                htmlElement.classList.add('light');
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            } else {
-                htmlElement.classList.remove('light');
-                htmlElement.classList.add('dark');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            }
-        });
-        
-        // 标签页切换功能
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.getAttribute('data-tab');
-                
-                // 移除所有活动标签和内容
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
-                
-                // 添加活动类到当前标签和内容
-                tab.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-                
-                // 添加淡入动画
-                document.getElementById(tabId).classList.add('fade-in');
-                setTimeout(() => {
-                    document.getElementById(tabId).classList.remove('fade-in');
-                }, 800);
-            });
-        });
-        
-        // 懒加载功能
+        // 配置Tailwind主题 - Linear App风格
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        neutral: {
+                            750: '#313438',
+                            850: '#1f2023',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'linear': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                        'linear-lg': '0 2px 8px 0 rgba(0, 0, 0, 0.08)',
+                    },
+                },
+            },
+        };
+
+        // 深色/浅色模式切换功能
         document.addEventListener('DOMContentLoaded', () => {
-            const lazyLoadSections = document.querySelectorAll('.tab-content:not(.active)');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('fade-in');
-                        observer.unobserve(entry.target);
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const htmlElement = document.documentElement;
+
+            // 检查系统偏好
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                htmlElement.classList.add('dark');
+            }
+
+            // 切换深色/浅色模式
+            darkModeToggle.addEventListener('click', () => {
+                htmlElement.classList.toggle('dark');
+                updateDarkModeIcon();
+            });
+
+            // 更新图标
+            function updateDarkModeIcon() {
+                const isDark = htmlElement.classList.contains('dark');
+                const iconElement = darkModeToggle.querySelector('i');
+
+                if (isDark) {
+                    iconElement.classList.remove('fa-moon');
+                    iconElement.classList.add('fa-sun');
+                } else {
+                    iconElement.classList.remove('fa-sun');
+                    iconElement.classList.add('fa-moon');
+                }
+            }
+
+            // 初始化图标
+            updateDarkModeIcon();
+
+            // 初始化手风琴功能
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    button.classList.toggle('active');
+                    const icon = button.querySelector('i.fa-chevron-down');
+                    if (icon) {
+                        icon.classList.toggle('fa-rotate-180');
                     }
                 });
             });
-            
-            lazyLoadSections.forEach(section => {
+        });
+
+        // 添加滚动动画
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in-section').forEach(section => {
                 observer.observe(section);
             });
         });
     </script>
-</body>
-</html>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* 自定义动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .fade-in-section {
+            opacity: 0;
+        }
+
+        /* Linear App风格卡片悬停效果 */
+        .product-card {
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .dark .product-card:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 按钮悬停效果 */
+        .hover-button {
+            transition: all 0.2s ease;
+        }
+
+        .hover-button:hover {
+            transform: scale(1.02);
+        }
+
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 内容区块加载动画 */
+        .content-block {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* 表格样式 - Linear风格 */
+        .custom-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            font-size: 0.875rem;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+        }
+
+        .dark .custom-table th,
+        .dark .custom-table td {
+            border-color: #374151;
+        }
+
+        .custom-table th {
+            background-color: #f9fafb;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .dark .custom-table th {
+            background-color: #1f2937;
+        }
+
+        /* 标签样式 - Linear风格 */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 产品卡片样式 */
+        .product-image {
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        
+        .dark .product-image {
+            mix-blend-mode: normal;
+        }
+        
+        /* 折叠面板样式 */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-button.active + .accordion-content {
+            max-height: 1000px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <!-- 导航栏 - Linear App风格 -->
+    <nav class="sticky top-0 z-50 bg-white dark:bg-neutral-850 border-b border-gray-200 dark:border-gray-800 shadow-linear">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-primary-600 dark:text-primary-400 font-bold text-xl">合生元营养品产品介绍</span>
+                    </div>
+                    <div class="hidden md:ml-6 md:flex md:space-x-8">
+                        <a href="#products"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">产品分类</a>
+                        <a href="#r52"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">超金R52</a>
+                        <a href="#r71"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">超金R71</a>
+                        <a href="#duokaiwei"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">多开味</a>
+                        <a href="#qinhe"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">亲呵</a>
+                        <a href="#dha"
+                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">DHA+ARA</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <button id="dark-mode-toggle"
+                        class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-moon text-gray-600 dark:text-gray-300"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 - Linear App风格 -->
+    <header class="bg-gradient-to-r from-primary-600 to-blue-600 dark:from-primary-800 dark:to-blue-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
+                合生元营养品产品介绍
+            </h1>
+            <p class="text-xl sm:text-2xl text-blue-100 max-w-3xl mx-auto">
+                专业、科学、全面的营养品介绍指南
+            </p>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- 产品分类概述 -->
+        <section id="products" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">产品分类</h2>
+            <div class="bg-white dark:bg-neutral-850 rounded-xl shadow-linear-lg p-6 md:p-8 content-block border border-gray-100 dark:border-gray-800">
+                <p class="text-gray-600 dark:text-gray-300 mb-6 text-center max-w-3xl mx-auto">
+                    合生元营养品系列包含多种针对不同年龄段和需求的产品，以下是我们的主要产品分类
+                </p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 超金R52 -->
+                    <a href="#r52" class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
+                        <div class="flex items-center justify-center mb-4 h-40">
+                            <i class="fas fa-capsules text-primary-500 text-6xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">超金R52</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">
+                            专为婴幼儿设计的高活性益生菌，增强免疫力，改善肠道健康
+                        </p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="tag bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">¥180+180元赠品</span>
+                        </div>
+                    </a>
+                    
+                    <!-- 超金R71 -->
+                    <a href="#r71" class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
+                        <div class="flex items-center justify-center mb-4 h-40">
+                            <i class="fas fa-pills text-blue-500 text-6xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">超金R71</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">
+                            升级版益生菌，含有更多活性菌株，针对儿童肠道健康
+                        </p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="tag bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">¥230+230元赠品</span>
+                        </div>
+                    </a>
+                    
+                    <!-- 多开味 -->
+                    <a href="#duokaiwei" class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
+                        <div class="flex items-center justify-center mb-4 h-40">
+                            <i class="fas fa-cookie-bite text-yellow-500 text-6xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">多开味</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">
+                            专为挑食宝宝设计，促进食欲，改善消化功能
+                        </p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="tag bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">¥120+120元赠品</span>
+                        </div>
+                    </a>
+                    
+                    <!-- 亲呵 -->
+                    <a href="#qinhe" class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
+                        <div class="flex items-center justify-center mb-4 h-40">
+                            <i class="fas fa-baby text-purple-500 text-6xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">亲呵</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">
+                            专为0-3岁婴幼儿设计，促进肠道健康，预防过敏
+                        </p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="tag bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">¥150+150元赠品</span>
+                        </div>
+                    </a>
+                    
+                    <!-- DHA+ARA -->
+                    <a href="#dha" class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
+                        <div class="flex items-center justify-center mb-4 h-40">
+                            <i class="fas fa-brain text-red-500 text-6xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">DHA+ARA</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">
+                            促进大脑发育，提高认知能力，支持视力发展
+                        </p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="tag bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">¥200+200元赠品</span>
+                        </div>
+                    </a>
+                    
+                    <!-- 液体钙 -->
+                    <a href="#calcium" class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
+                        <div class="flex items-center justify-center mb-4 h-40">
+                            <i class="fas fa-bone text-teal-500 text-6xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">液体钙</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">
+                            高吸收率液体钙，促进骨骼发育，预防缺钙
+                        </p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="tag bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200">¥160+160元赠品</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 多开味产品详情 -->
+        <section id="duokaiwei" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">多开味</h2>
+            <div class="bg-white dark:bg-neutral-850 rounded-xl shadow-linear-lg p-6 md:p-8 content-block border border-gray-100 dark:border-gray-800">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- 产品图片 -->
+                    <div class="flex items-center justify-center">
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 w-full max-w-xs">
+                            <i class="fas fa-cookie-bite text-yellow-500 text-8xl mb-4 mx-auto block text-center"></i>
+                            <h3 class="text-lg font-medium text-gray-800 dark:text-white text-center">多开味益生菌</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">¥120+120元赠品</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 产品信息 -->
+                    <div class="md:col-span-2">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-info-circle text-primary-500 mr-2"></i>产品介绍
+                                </h3>
+                                <p class="text-gray-600 dark:text-gray-300">
+                                    合生元多开味是专为挑食宝宝设计的特殊配方益生菌，含有促进食欲的特殊菌株和天然提取物，能有效改善宝宝挑食、厌食问题，促进消化酶分泌，增强味觉敏感度，让宝宝重新爱上吃饭。
+                                </p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-2"></i>适用人群
+                                    </h4>
+                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
+                                        <li>食欲不振的宝宝</li>
+                                        <li>挑食、厌食的儿童</li>
+                                        <li>消化功能弱的宝宝</li>
+                                        <li>偏食导致营养不良的儿童</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                        <i class="fas fa-times text-red-500 mr-2"></i>不适宜人群
+                                    </h4>
+                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
+                                        <li>对产品成分过敏者</li>
+                                        <li>急性胃肠炎患者</li>
+                                        <li>有特殊饮食限制的儿童</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-star text-yellow-500 mr-2"></i>产品特点
+                                </h4>
+                                <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
+                                    <li>特殊菌株组合，促进食欲</li>
+                                    <li>添加天然水果提取物，口感佳</li>
+                                    <li>促进消化酶分泌，改善消化功能</li>
+                                    <li>增强味觉敏感度，减少挑食行为</li>
+                                    <li>无添加色素和防腐剂</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-comment text-blue-500 mr-2"></i>推荐话术
+                                </h4>
+                                <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                                    <p class="text-gray-700 dark:text-gray-300 italic">
+                                        "合生元多开味是专为挑食宝宝设计的特殊配方益生菌，含有促进食欲的特殊菌株和天然提取物，能有效改善宝宝挑食、厌食问题。它不仅能促进消化酶分泌，还能增强味觉敏感度，让宝宝重新爱上吃饭，是解决宝宝挑食问题的理想选择！"
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-question-circle text-purple-500 mr-2"></i>常见问题解答
+                                </h4>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 多开味多久能见效？</p>
+                                        <p class="text-gray-600 dark:text-gray-300">A: 一般服用1-2周后可以看到明显改善，但每个宝宝情况不同，建议坚持服用1个月。</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 可以与其他益生菌一起服用吗？</p>
+                                        <p class="text-gray-600 dark:text-gray-300">A: 可以，但建议间隔30分钟以上，以获得最佳效果。</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 有年龄限制吗？</p>
+                                        <p class="text-gray-600 dark:text-gray-300">A: 适合1岁以上的宝宝，不同年龄段剂量有所不同，请按说明使用。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 超金R52产品详情 -->
+        <section id="r52" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">超金R52</h2>
+            <div class="bg-white dark:bg-neutral-850 rounded-xl shadow-linear-lg p-6 md:p-8 content-block border border-gray-100 dark:border-gray-800">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- 产品图片 -->
+                    <div class="flex items-center justify-center">
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 w-full max-w-xs">
+                            <i class="fas fa-capsules text-primary-500 text-8xl mb-4 mx-auto block text-center"></i>
+                            <h3 class="text-lg font-medium text-gray-800 dark:text-white text-center">超金R52益生菌</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">¥180+180元赠品</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 产品信息 -->
+                    <div class="md:col-span-2">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-info-circle text-primary-500 mr-2"></i>产品介绍
+                                </h3>
+                                <p class="text-gray-600 dark:text-gray-300">
+                                    超金R52是合生元旗下高端益生菌产品，专为中国宝宝研发，采用法国先进工艺，精选多种有益菌株，科学配比，有效调节肠道菌群平衡，增强免疫力，改善消化系统健康。
+                                </p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-2"></i>适用人群
+                                    </h4>
+                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
+                                        <li>0-3岁婴幼儿</li>
+                                        <li>免疫力低下的儿童</li>
+                                        <li>肠道菌群失调的宝宝</li>
+                                        <li>服用抗生素后的恢复期</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                        <i class="fas fa-times text-red-500 mr-2"></i>不适宜人群
+                                    </h4>
+                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
+                                        <li>对产品成分过敏者</li>
+                                        <li>严重免疫缺陷患者</li>
+                                        <li>急性胰腺炎患者</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-star text-yellow-500 mr-2"></i>产品特点
+                                </h4>
+                                <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
+                                    <li>含有5种活性益生菌，每袋含52亿CFU活菌</li>
+                                    <li>法国进口菌株，专利保护技术</li>
+                                    <li>无需冷藏，常温保存，活性不减</li>
+                                    <li>独立小包装，方便携带和使用</li>
+                                    <li>口感温和，宝宝易接受</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-comment text-blue-500 mr-2"></i>推荐话术
+                                </h4>
+                                <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                                    <p class="text-gray-700 dark:text-gray-300 italic">
+                                        "合生元超金R52益生菌是专为0-3岁宝宝设计的高端益生菌产品，每袋含52亿CFU活菌，能有效调节肠道菌群平衡，增强免疫力。采用法国进口菌株，无需冷藏，常温保存活性不减，是呵护宝宝肠道健康的优质产品，为宝宝的健康保驾护航！"
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-question-circle text-purple-500 mr-2"></i>常见问题解答
+                                </h4>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 宝宝多大可以开始服用R52益生菌？</p>
+                                        <p class="text-gray-600 dark:text-gray-300">A: 合生元R52益生菌适合0-3岁的婴幼儿服用，出生后即可在医生或专业人士指导下使用。</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 每天服用剂量是多少？</p>
+                                        <p class="text-gray-600 dark:text-gray-300">A: 建议每天1-2袋，可直接食用或混合在温度不超过40℃的食物或饮料中。</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 服用益生菌有什么注意事项？</p>
+                                        <p class="text-gray-600 dark:text-gray-300">A: 避免与热饮同服，服用抗生素时请间隔2小时以上，开封后请立即食用。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 多开味产品详情 -->
+        <section id="duokaiwei" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">多开味</h2>
+            <div class="bg-white dark:bg-neutral-850 rounded-xl shadow-linear-lg p-6 md:p-8 content-block border border-gray-100 dark:border-gray-800">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- 产品图片 -->
+                    <div class="flex items-center justify-center">
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 w-full max-w-xs">
+                            <i class="fas fa-cookie-bite text-yellow-500 text-8xl mb-4 mx-auto block text-center"></i>
+                            <h3 class="text-lg font-medium text-gray-800 dark:text-white text-center">多开味益生菌</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">¥120+120元赠品</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 产品信息 -->
+                    <div class="md:col-span-2">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-info-circle text-primary-500 mr-2"></i>产品介绍
+                                </h3>
+                                <p class="text-gray-600 dark:text-gray-300">
+                                    合生元多开味是专为挑食宝宝设计的特殊配方益生菌，含有促进食欲的特殊菌株和天然提取物，能有效改善宝宝挑食、厌食问题，促进消化酶分泌，增强味觉敏感度，让宝宝重新爱上吃饭。
+                                </p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                        <i class="fas fa-check text-green-500 mr-2"></i>适用人群
+                                    </h4>
+                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
+                                        <li>食欲不振的宝宝</li>
+                                        <li>挑食、厌食的儿童</li>
+                                        <li>消化功能弱的宝宝</li>
+                                        <li>偏食导致营养不良的儿童</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                        <i class="fas fa-times text-red-500 mr-2"></i>不适宜人群
+                                    </h4>
+                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
+                                        <li>对产品成分过敏者</li>
+                                        <li>急性胃肠炎患者</li>
+                                        <li>有特殊饮食限制的儿童</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-star text-yellow-500 mr-2"></i>产品特点
+                                </h4>
+                                <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
+                                    <li>特殊菌株组合，促进食欲</li>
+                                    <li>添加天然水果提取物，口感佳</li>
+                                    <li>促进消化酶分泌，改善消化功能</li>
+                                    <li>增强味觉敏感度，减少挑食行为</li>
+                                    <li>无添加色素和防腐剂</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-comment text-blue-500 mr-2"></i>推荐话术
+                                </h4>
+                                <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                                    <p class="text-gray-700 dark:text-gray-300 italic">
+                                        "合生元多开味是专为挑食宝宝设计的特殊配方益生菌，含有促进食欲的特殊菌株和天然提取物，能有效改善宝宝挑食、厌食问题。它不仅能促进消化酶分泌，还能增强味觉敏感度，让宝宝重新爱上吃饭，是解决宝宝挑食问题的理想选择！"
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
+                                    <i class="fas fa-question-circle text-purple-500 mr-2"></i>常见问题解答
+                                </h4>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 多开味多久能见效？</p>
+                                        <p class="text-gray-600 dark:text-gray-300">A: 一般服用1-2周后可以看到明显改善，但每个宝宝情况不同，建议坚持服用1个月。</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 可以与其他益生菌一起服用吗？</p>
+                                        <p class="text-gray-600 dark:text-gray-300">A: 可以，但建议间隔30分钟以上，以获得最佳效果。</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 有年龄限制吗？</p>
+                                        <p class="text-gray-600 dark:text-gray-300">A: 适合1岁以上的宝宝，不同年龄段剂量有所不同，请按说明使用。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 超金R71产品详情 -->
+        <section id="r71" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">超金R71</h2>
+            <div class="bg-white dark:bg-neutral-850 rounded-xl shadow-linear-lg p-6 md:p-8 content-block border border-gray-100 dark:border-gray-800">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- 产品图片 -->
+                    <div class="flex items-center justify-center">
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 w-full max-w-xs">
+                            <i class="fas fa-pills text-blue-500 text-8xl mb-4 mx-auto block text-center"></i>
+                            <h3
