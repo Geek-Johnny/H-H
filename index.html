@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>合生元营养品完整介绍</title>
-    <!-- TailwindCSS 3.0+ -->
+    <title>觅宝 - 专业母婴知识网</title>
+    <!-- TailwindCSS 通过CDN引入 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
-        // 配置Tailwind主题 - Linear App风格
+        // 配置Tailwind
         tailwind.config = {
             darkMode: 'class',
             theme: {
@@ -28,682 +27,444 @@
                             800: '#075985',
                             900: '#0c4a6e',
                         },
-                        neutral: {
-                            750: '#313438',
-                            850: '#1f2023',
-                        }
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
                     },
-                    boxShadow: {
-                        'linear': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                        'linear-lg': '0 2px 8px 0 rgba(0, 0, 0, 0.08)',
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
                     },
                 },
             },
-        };
-
-        // 深色/浅色模式切换功能
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeToggle = document.getElementById('dark-mode-toggle');
-            const htmlElement = document.documentElement;
-
-            // 检查系统偏好
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                htmlElement.classList.add('dark');
-            }
-
-            // 切换深色/浅色模式
-            darkModeToggle.addEventListener('click', () => {
-                htmlElement.classList.toggle('dark');
-                updateDarkModeIcon();
-            });
-
-            // 更新图标
-            function updateDarkModeIcon() {
-                const isDark = htmlElement.classList.contains('dark');
-                const iconElement = darkModeToggle.querySelector('i');
-
-                if (isDark) {
-                    iconElement.classList.remove('fa-moon');
-                    iconElement.classList.add('fa-sun');
-                } else {
-                    iconElement.classList.remove('fa-sun');
-                    iconElement.classList.add('fa-moon');
-                }
-            }
-
-            // 初始化图标
-            updateDarkModeIcon();
-
-            // 初始化手风琴功能
-            const accordionButtons = document.querySelectorAll('.accordion-button');
-            accordionButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    button.classList.toggle('active');
-                    const icon = button.querySelector('i.fa-chevron-down');
-                    if (icon) {
-                        icon.classList.toggle('fa-rotate-180');
-                    }
-                });
-            });
-        });
-
-        // 添加滚动动画
-        document.addEventListener('DOMContentLoaded', () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-fade-in');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.fade-in-section').forEach(section => {
-                observer.observe(section);
-            });
-        });
+        }
     </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        /* 自定义动画 */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .transition-colors {
+                transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 150ms;
             }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-primary-300 dark:hover:border-primary-600;
             }
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        .fade-in-section {
-            opacity: 0;
-        }
-
-        /* Linear App风格卡片悬停效果 */
-        .product-card {
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-        }
-
-        .product-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-color: rgba(0, 0, 0, 0.08);
-        }
-
-        .dark .product-card:hover {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        /* 按钮悬停效果 */
-        .hover-button {
-            transition: all 0.2s ease;
-        }
-
-        .hover-button:hover {
-            transform: scale(1.02);
-        }
-
-        /* 平滑滚动 */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* 内容区块加载动画 */
-        .content-block {
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        /* 表格样式 - Linear风格 */
-        .custom-table {
-            border-collapse: separate;
-            border-spacing: 0;
-            width: 100%;
-            font-size: 0.875rem;
-        }
-
-        .custom-table th,
-        .custom-table td {
-            border: 1px solid #e5e7eb;
-            padding: 0.75rem 1rem;
-        }
-
-        .dark .custom-table th,
-        .dark .custom-table td {
-            border-color: #374151;
-        }
-
-        .custom-table th {
-            background-color: #f9fafb;
-            font-weight: 500;
-            text-align: left;
-        }
-
-        .dark .custom-table th {
-            background-color: #1f2937;
-        }
-
-        /* 标签样式 - Linear风格 */
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* 产品卡片样式 */
-        .product-image {
-            aspect-ratio: 1 / 1;
-            object-fit: contain;
-            mix-blend-mode: multiply;
-        }
-
-        .dark .product-image {
-            mix-blend-mode: normal;
-        }
-
-        /* 折叠面板样式 */
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .accordion-button.active+.accordion-content {
-            max-height: 1000px;
         }
     </style>
 </head>
-
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
-    <!-- 导航栏 - Linear App风格 -->
-    <nav
-        class="sticky top-0 z-50 bg-white dark:bg-neutral-850 border-b border-gray-200 dark:border-gray-800 shadow-linear">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <span class="text-primary-600 dark:text-primary-400 font-bold text-xl">合生元营养品产品介绍</span>
-                    </div>
-                    <div class="hidden md:ml-6 md:flex md:space-x-8">
-                        <a href="#products"
-                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">产品分类</a>
-                        <a href="#r52"
-                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">超金R52</a>
-                        <a href="#r71"
-                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">超金R71</a>
-                        <a href="#duokaiwei"
-                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">多开味</a>
-                        <a href="#qinhe"
-                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">亲呵</a>
-                        <a href="#dha"
-                            class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-primary-500 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">DHA+ARA</a>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <button id="dark-mode-toggle"
-                        class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
-                        <i class="fas fa-moon text-gray-600 dark:text-gray-300"></i>
-                    </button>
-                </div>
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md transition-colors">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-baby text-primary-500 text-2xl"></i>
+                <h1 class="text-xl font-bold">觅宝 - 专业母婴知识网</h1>
             </div>
-        </div>
-    </nav>
-
-    <!-- 英雄区域 - Linear App风格 -->
-    <header class="bg-gradient-to-r from-primary-600 to-blue-600 dark:from-primary-800 dark:to-blue-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-                合生元营养品产品介绍
-            </h1>
-            <p class="text-xl sm:text-2xl text-blue-100 max-w-3xl mx-auto">
-                专业、科学、全面的营养品介绍指南
-            </p>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#products" class="hover:text-primary-500 transition-colors">产品大全</a></li>
+                    <li><a href="#selling-points" class="hover:text-primary-500 transition-colors">一句话卖点</a></li>
+                    <li><a href="#objections" class="hover:text-primary-500 transition-colors">异议话术</a></li>
+                    <li><a href="#sales-scenarios" class="hover:text-primary-500 transition-colors">销售场景</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                <i class="fas fa-moon dark:hidden"></i>
+                <i class="fas fa-sun hidden dark:block"></i>
+            </button>
         </div>
     </header>
 
-    <!-- 主要内容区域 -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <!-- 产品分类概述 -->
-        <section id="products" class="mb-16 fade-in-section">
-            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">产品分类</h2>
-            <div
-                class="bg-white dark:bg-neutral-850 rounded-xl shadow-linear-lg p-6 md:p-8 content-block border border-gray-100 dark:border-gray-800">
-                <p class="text-gray-600 dark:text-gray-300 mb-6 text-center max-w-3xl mx-auto">
-                    合生元营养品系列包含多种针对不同年龄段和需求的产品，以下是我们的主要产品分类
-                </p>
+    <!-- 移动端导航菜单 -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] z-50">
+        <div class="flex justify-around py-3">
+            <a href="#products" class="flex flex-col items-center text-xs">
+                <i class="fas fa-box-open mb-1 text-primary-500"></i>
+                <span>产品大全</span>
+            </a>
+            <a href="#selling-points" class="flex flex-col items-center text-xs">
+                <i class="fas fa-bullhorn mb-1 text-primary-500"></i>
+                <span>卖点</span>
+            </a>
+            <a href="#objections" class="flex flex-col items-center text-xs">
+                <i class="fas fa-comments mb-1 text-primary-500"></i>
+                <span>异议话术</span>
+            </a>
+            <a href="#sales-scenarios" class="flex flex-col items-center text-xs">
+                <i class="fas fa-store mb-1 text-primary-500"></i>
+                <span>销售场景</span>
+            </a>
+        </div>
+    </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- 超金R52 -->
-                    <a href="#r52"
-                        class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
-                        <div class="flex items-center justify-center mb-4 h-40">
-                            <img src="images/R71产品图.png" alt="超金R52" class="product-image h-full object-contain">
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">超金R52</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-center">
-                            专为婴幼儿设计的高活性益生菌，增强免疫力，改善肠道健康
-                        </p>
-                        <div class="mt-4 flex justify-center">
-                            <span
-                                class="tag bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">¥180+180元赠品</span>
-                        </div>
-                    </a>
-
-                    <!-- 超金R71 -->
-                    <a href="#r71"
-                        class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
-                        <div class="flex items-center justify-center mb-4 h-40">
-                            <img src="images/R71产品图.png" alt="超金R71" class="product-image h-full object-contain">
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">超金R71</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-center">
-                            升级版益生菌，含有更多活性菌株，针对儿童肠道健康
-                        </p>
-                        <div class="mt-4 flex justify-center">
-                            <span
-                                class="tag bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">¥230+230元赠品</span>
-                        </div>
-                    </a>
-
-                    <!-- 多开味 -->
-                    <a href="#duokaiwei"
-                        class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
-                        <div class="flex items-center justify-center mb-4 h-40">
-                            <img src="images/多开味产品图.png" alt="多开味" class="product-image h-full object-contain">
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">多开味</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-center">
-                            专为挑食宝宝设计，促进食欲，改善消化功能
-                        </p>
-                        <div class="mt-4 flex justify-center">
-                            <span
-                                class="tag bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">¥120+120元赠品</span>
-                        </div>
-                    </a>
-
-                    <!-- 亲呵 -->
-                    <a href="#qinhe"
-                        class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
-                        <div class="flex items-center justify-center mb-4 h-40">
-                            <img src="images/亲呵产品图.png" alt="亲呵" class="product-image h-full object-contain">
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">亲呵</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-center">
-                            专为0-3岁婴幼儿设计，促进肠道健康，预防过敏
-                        </p>
-                        <div class="mt-4 flex justify-center">
-                            <span
-                                class="tag bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">¥150+150元赠品</span>
-                        </div>
-                    </a>
-
-                    <!-- DHA+ARA -->
-                    <a href="#dha"
-                        class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
-                        <div class="flex items-center justify-center mb-4 h-40">
-                            <img src="images/DHA胶囊产品图.png" alt="DHA+ARA" class="product-image h-full object-contain">
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">DHA+ARA</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-center">
-                            促进大脑发育，提高认知能力，支持视力发展
-                        </p>
-                        <div class="mt-4 flex justify-center">
-                            <span
-                                class="tag bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">¥200+200元赠品</span>
-                        </div>
-                    </a>
-
-                    <!-- 液体钙 -->
-                    <a href="#calcium"
-                        class="product-card bg-white dark:bg-gray-800 rounded-xl shadow-linear p-6 content-block">
-                        <div class="flex items-center justify-center mb-4 h-40">
-                            <img src="images/R52产品图.png" alt="液体钙" class="product-image h-full object-contain">
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 text-center">液体钙</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-center">
-                            高吸收率液体钙，促进骨骼发育，预防缺钙
-                        </p>
-                        <div class="mt-4 flex justify-center">
-                            <span
-                                class="tag bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200">¥160+160元赠品</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 py-8 pb-20 md:pb-8 animate-fade-in">
+        <!-- 英雄区域 -->
+        <section class="mb-12 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-primary-600 dark:text-primary-400">觅宝 - 专业母婴知识网</h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">为母婴行业专业人士提供全面的产品知识、销售技巧和沟通话术</p>
         </section>
 
-        <!-- 多开味产品详情 -->
-        <section id="duokaiwei" class="mb-16 fade-in-section">
-            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">多开味</h2>
-            <div
-                class="bg-white dark:bg-neutral-850 rounded-xl shadow-linear-lg p-6 md:p-8 content-block border border-gray-100 dark:border-gray-800">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- 产品图片 -->
-                    <div class="flex items-center justify-center">
-                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 w-full max-w-xs">
-                            <img src="images/多开味产品图.png" alt="多开味益生菌" class="product-image h-40 mb-4 mx-auto block text-center">
-                            <h3 class="text-lg font-medium text-gray-800 dark:text-white text-center">多开味益生菌</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">¥120+120元赠品</p>
-                        </div>
+        <!-- 产品大全 -->
+        <section id="products" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-box-open text-2xl text-primary-500 mr-3"></i>
+                <h2 class="text-3xl font-bold">产品大全</h2>
+            </div>
+            
+            <!-- 超金菌 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8 transition-colors">
+                <h3 class="text-2xl font-semibold mb-4 text-primary-600 dark:text-primary-400">超金菌</h3>
+                
+                <!-- 发圈文案 -->
+                <div class="mb-8">
+                    <h4 class="text-xl font-medium mb-3 flex items-center">
+                        <i class="fas fa-circle-nodes text-primary-500 mr-2"></i>
+                        发圈文案
+                    </h4>
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4">
+                        <p class="mb-2">🎉️ 合生元王炸产品来啦！</p>
+                        <p class="mb-2">😄 超金菌，缓解便便问题</p>
+                        <p class="mb-2">👀️ 三天有效，三天有效</p>
+                        <p class="mb-2">👍 9大菌株强强联合，实证有效！</p>
+                        <p>🚀️ 肠道问题就选#合生元超金菌</p>
                     </div>
-
-                    <!-- 产品信息 -->
-                    <div class="md:col-span-2">
-                        <div class="space-y-6">
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-info-circle text-primary-500 mr-2"></i>产品介绍
-                                </h3>
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    合生元多开味是专为挑食宝宝设计的特殊配方益生菌，含有促进食欲的特殊菌株和天然提取物，能有效改善宝宝挑食、厌食问题，促进消化酶分泌，增强味觉敏感度，让宝宝重新爱上吃饭。
-                                </p>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-2"></i>适用人群
-                                    </h4>
-                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
-                                        <li>食欲不振的宝宝</li>
-                                        <li>挑食、厌食的儿童</li>
-                                        <li>消化功能弱的宝宝</li>
-                                        <li>偏食导致营养不良的儿童</li>
-                                    </ul>
-                                </div>
-
-                                <div>
-                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                        <i class="fas fa-times text-red-500 mr-2"></i>不适宜人群
-                                    </h4>
-                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
-                                        <li>对产品成分过敏者</li>
-                                        <li>急性胃肠炎患者</li>
-                                        <li>有特殊饮食限制的儿童</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-star text-yellow-500 mr-2"></i>产品特点
-                                </h4>
-                                <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
-                                    <li>特殊菌株组合，促进食欲</li>
-                                    <li>添加天然水果提取物，口感佳</li>
-                                    <li>促进消化酶分泌，改善消化功能</li>
-                                    <li>增强味觉敏感度，减少挑食行为</li>
-                                    <li>无添加色素和防腐剂</li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-comment text-blue-500 mr-2"></i>推荐话术
-                                </h4>
-                                <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
-                                    <p class="text-gray-700 dark:text-gray-300 italic">
-                                        "合生元多开味是专为挑食宝宝设计的特殊配方益生菌，含有促进食欲的特殊菌株和天然提取物，能有效改善宝宝挑食、厌食问题。它不仅能促进消化酶分泌，还能增强味觉敏感度，让宝宝重新爱上吃饭，是解决宝宝挑食问题的理想选择！"
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-question-circle text-purple-500 mr-2"></i>常见问题解答
-                                </h4>
-                                <div class="space-y-3">
-                                    <div>
-                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 多开味多久能见效？</p>
-                                        <p class="text-gray-600 dark:text-gray-300">A:
-                                            一般服用1-2周后可以看到明显改善，但每个宝宝情况不同，建议坚持服用1个月。</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 可以与其他益生菌一起服用吗？</p>
-                                        <p class="text-gray-600 dark:text-gray-300">A: 可以，但建议间隔30分钟以上，以获得最佳效果。</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 有年龄限制吗？</p>
-                                        <p class="text-gray-600 dark:text-gray-300">A: 适合1岁以上的宝宝，不同年龄段剂量有所不同，请按说明使用。</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0exco7ic7j30zk1bfahn.jpg" alt="发圈文案3" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0excoespxj30zk1bftez.jpg" alt="发圈文案1" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0excok2fnj30zk1bfwmw.jpg" alt="发圈文案2" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                    </div>
+                </div>
+                
+                <!-- 私聊撩客话术 -->
+                <div class="mb-8">
+                    <h4 class="text-xl font-medium mb-3 flex items-center">
+                        <i class="fas fa-comments text-primary-500 mr-2"></i>
+                        私聊撩客话术
+                    </h4>
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4">
+                        <p class="mb-3">1、妈妈，合生元新上一款天花板、3天见效益生菌"超金菌"，你见过吗？</p>
+                        <p class="mb-3">2、它是奶味益生菌升级版，合生元最给力最顶级配方，拥有"九联菌+三大益生元" 专门调节肠胃，临床验证解决便便问题三天有效，没错三天有效！现在已经有宝宝在用，效果真的很给力诶，改善消化吸收，效果比奶味强很多！</p>
+                        <p class="mb-3">3、宝宝平常胃口一般，或者不怎么长肉，或者便便不好，你就用这个吧！今天门店专门开了活动，只要多少钱，就可用拿到一盒，平均一包多少钱</p>
+                        <p>4、家里有奶味，也没关系，你可用备着！哪天娃饭吃多了，吃了上火的，吃多了零食，你就赶紧用上，预防腹胀上火便秘，效果更快；跟奶味间隔补充就好！</p>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0exan0rwqj30pu1jdjtv.jpg" alt="私聊撩客话术2" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0exanap1mj30pu1jdjtv.jpg" alt="私聊撩客话术3" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0exangdylj30q71glgo0.jpg" alt="私聊撩客话术4" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0exanm6m1j30u01f5dkl.jpg" alt="私聊撩客话术5" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0exanropzj30pf1gr0ww.jpg" alt="私聊撩客话术6" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0exany9xlj30rc1gudiq.jpg" alt="私聊撩客话术1" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                    </div>
+                </div>
+                
+                <!-- 社群撩客话术 -->
+                <div>
+                    <h4 class="text-xl font-medium mb-3 flex items-center">
+                        <i class="fas fa-users text-primary-500 mr-2"></i>
+                        社群撩客话术
+                    </h4>
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4">
+                        <p class="mb-1">你们想要效果来啦！！</p>
+                        <p class="mb-1">合生元王炸产品！</p>
+                        <p class="mb-1">天花板"益生菌"来啦！</p>
+                        <p class="mb-1">九联菌+三大益生元</p>
+                        <p class="mb-1">三天改善便便</p>
+                        <p class="mb-3">四周巩固，临床实证有效</p>
+                        <p class="mb-3">肠道问题三天见效！就是这么有底气，不信来试试</p>
+                        <p class="mb-1">原价368元/42袋</p>
+                        <p class="mb-1">活动：</p>
+                        <p>折后价：~元/盒</p>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0evr22fx0j30zk1bfq87.jpg" alt="超金5" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0evr2ald8j315o1sidm1.jpg" alt="超金6" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0evr34e7fj30lv0l5wqm.jpg" alt="超金1" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0evr3emy4j32rf1yv1cz.jpg" alt="超金2" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0evr3q5vpj32rf1yv4jp.jpg" alt="超金3" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                        <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0evr3w5w6j30u01hc0wo.jpg" alt="超金4" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 超金R52产品详情 -->
-        <section id="r52" class="mb-16 fade-in-section">
-            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">超金R52</h2>
-            <div
-                class="bg-white dark:bg-neutral-850 rounded-xl shadow-linear-lg p-6 md:p-8 content-block border border-gray-100 dark:border-gray-800">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- 产品图片 -->
-                    <div class="flex items-center justify-center">
-                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 w-full max-w-xs">
-                            <img src="images/R71产品图.png" alt="超金R52益生菌" class="product-image h-40 mb-4 mx-auto block text-center">
-                            <h3 class="text-lg font-medium text-gray-800 dark:text-white text-center">超金R52益生菌</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">¥180+180元赠品</p>
-                        </div>
-                    </div>
+        <!-- 一句话卖点 -->
+        <section id="selling-points" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-bullhorn text-2xl text-primary-500 mr-3"></i>
+                <h2 class="text-3xl font-bold">一句话卖点</h2>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 overflow-x-auto transition-colors">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">产品分类</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">菌含量/益生元</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">核心功效</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">一句话卖点</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">卖点补充</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">原味益生菌（0岁可用）</td>
+                            <td class="px-4 py-4 whitespace-nowrap">100亿cfu/袋三联菌1种益生元</td>
+                            <td class="px-4 py-4 whitespace-nowrap">7天提免疫力3天缓解腹泻3天缓解抗生素副作用</td>
+                            <td class="px-4 py-4">全市场唯一22项临床0岁可用小蓝帽保健品，感冒/腹泻/用药期均可使用</td>
+                            <td class="px-4 py-4">市场独家临床认证，三天快速改善三大核心问题</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">奶味益生菌（0岁可用）</td>
+                            <td class="px-4 py-4 whitespace-nowrap">150亿cfu/袋四联菌1种益生元</td>
+                            <td class="px-4 py-4 whitespace-nowrap">解决奶瓣/绿便/便秘促进消化吸收</td>
+                            <td class="px-4 py-4">四联菌+酵母锌配方，三天解决奶瓣问题，特别适合内热宝宝</td>
+                            <td class="px-4 py-4">含天然橙味酵母锌，一袋抵三支葡萄糖酸锌</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">多开味益生菌（9月可用）</td>
+                            <td class="px-4 py-4 whitespace-nowrap">150亿cfu/袋四联菌酵母锌</td>
+                            <td class="px-4 py-4 whitespace-nowrap">开胃/长肉缓解内热</td>
+                            <td class="px-4 py-4">150亿活菌+锌配方，一次性解决食欲不振、消化不良、上火问题</td>
+                            <td class="px-4 py-4">口感天然橙味，不爱喝水宝宝主动喝</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">超级金装R71益生菌</td>
+                            <td class="px-4 py-4 whitespace-nowrap">180亿cfu/袋六联菌3种益生元</td>
+                            <td class="px-4 py-4 whitespace-nowrap">腹泻/便秘三天见效长期调理免疫</td>
+                            <td class="px-4 py-4">奶味升级版，菌量提升至180亿，三天解决顽固性肠道问题</td>
+                            <td class="px-4 py-4">活菌量达200亿级，采用九联菌+三益菌黄金配比</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">超级金装R52S益生菌</td>
+                            <td class="px-4 py-4 whitespace-nowrap">180亿cfu/袋六联菌1种益生元</td>
+                            <td class="px-4 py-4 whitespace-nowrap">短期腹泻便秘改善长期肠道养护</td>
+                            <td class="px-4 py-4">奶味升级配方，三天缓解急性症状，长期维护肠道微生态</td>
+                            <td class="px-4 py-4">活菌量较基础款提升20%</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">超级金益菌300</td>
+                            <td class="px-4 py-4 whitespace-nowrap">200亿cfu/袋九联菌3种益生元</td>
+                            <td class="px-4 py-4 whitespace-nowrap">三天缓解腹泻便秘长期调理过敏</td>
+                            <td class="px-4 py-4">含99%存活菌的九联菌+三联益生元，三天解决三大肠道问题</td>
+                            <td class="px-4 py-4">专为敏感体质设计，0敏专利菌株，三天消除红疹湿疹</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">亲呵益生菌（0岁可用）</td>
+                            <td class="px-4 py-4 whitespace-nowrap">200亿cfu/袋三联菌1种益生元</td>
+                            <td class="px-4 py-4 whitespace-nowrap">缓解皮肤敏感防治鼻炎/湿疹</td>
+                            <td class="px-4 py-4">医学专家推荐菌株，日本儿科医院同款，三天缓解皮疹、鼻塞、湿疹</td>
+                            <td class="px-4 py-4">全球半数儿科采用，0敏安全配方</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">舒比舒益生菌（0岁可用）</td>
+                            <td class="px-4 py-4 whitespace-nowrap">1000亿cfu/袋三联菌2种益生元</td>
+                            <td class="px-4 py-4 whitespace-nowrap">7天根治鼻敏感长期调节免疫</td>
+                            <td class="px-4 py-4">含三大专利菌株，七天消除90%以上鼻敏感症状，长期服用提升抵抗力</td>
+                            <td class="px-4 py-4">每袋含300亿活性菌，三天控制打喷嚏流鼻涕</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">合生元益生菌粉</td>
+                            <td class="px-4 py-4 whitespace-nowrap">益生菌86-120亿/瓶乳铁蛋白300mg/100g</td>
+                            <td class="px-4 py-4 whitespace-nowrap">呼吸道抗炎免疫调节</td>
+                            <td class="px-4 py-4">中国专利配方，含四大母乳菌+乳铁蛋白，四联协同提升抵抗力</td>
+                            <td class="px-4 py-4">每袋含16亿乳铁蛋白，相当于16瓶母乳</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">合生元DHA藻油</td>
+                            <td class="px-4 py-4 whitespace-nowrap">DHA100mgARA100mg核桃油20mg</td>
+                            <td class="px-4 py-4 whitespace-nowrap">促进眼脑发育</td>
+                            <td class="px-4 py-4">含ARA+DHA黄金比例，每天一滴提升视力敏感度</td>
+                            <td class="px-4 py-4"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-                    <!-- 产品信息 -->
-                    <div class="md:col-span-2">
-                        <div class="space-y-6">
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-info-circle text-primary-500 mr-2"></i>产品介绍
-                                </h3>
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    超金R52是合生元旗下高端益生菌产品，专为中国宝宝研发，采用法国先进工艺，精选多种有益菌株，科学配比，有效调节肠道菌群平衡，增强免疫力，改善消化系统健康。
-                                </p>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-2"></i>适用人群
-                                    </h4>
-                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
-                                        <li>0-3岁婴幼儿</li>
-                                        <li>免疫力低下的儿童</li>
-                                        <li>肠道菌群失调的宝宝</li>
-                                        <li>服用抗生素后的恢复期</li>
-                                    </ul>
-                                </div>
-
-                                <div>
-                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                        <i class="fas fa-times text-red-500 mr-2"></i>不适宜人群
-                                    </h4>
-                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
-                                        <li>对产品成分过敏者</li>
-                                        <li>严重免疫缺陷患者</li>
-                                        <li>急性胰腺炎患者</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-star text-yellow-500 mr-2"></i>产品特点
-                                </h4>
-                                <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
-                                    <li>含有5种活性益生菌，每袋含52亿CFU活菌</li>
-                                    <li>法国进口菌株，专利保护技术</li>
-                                    <li>无需冷藏，常温保存，活性不减</li>
-                                    <li>独立小包装，方便携带和使用</li>
-                                    <li>口感温和，宝宝易接受</li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-comment text-blue-500 mr-2"></i>推荐话术
-                                </h4>
-                                <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
-                                    <p class="text-gray-700 dark:text-gray-300 italic">
-                                        "合生元超金R52益生菌是专为0-3岁宝宝设计的高端益生菌产品，每袋含52亿CFU活菌，能有效调节肠道菌群平衡，增强免疫力。采用法国进口菌株，无需冷藏，常温保存活性不减，是呵护宝宝肠道健康的优质产品，为宝宝的健康保驾护航！"
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-question-circle text-purple-500 mr-2"></i>常见问题解答
-                                </h4>
-                                <div class="space-y-3">
-                                    <div>
-                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 宝宝多大可以开始服用R52益生菌？</p>
-                                        <p class="text-gray-600 dark:text-gray-300">A:
-                                            合生元R52益生菌适合0-3岁的婴幼儿服用，出生后即可在医生或专业人士指导下使用。</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 每天服用剂量是多少？</p>
-                                        <p class="text-gray-600 dark:text-gray-300">A:
-                                            建议每天1-2袋，可直接食用或混合在温度不超过40℃的食物或饮料中。</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 服用益生菌有什么注意事项？</p>
-                                        <p class="text-gray-600 dark:text-gray-300">A: 避免与热饮同服，服用抗生素时请间隔2小时以上，开封后请立即食用。
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <!-- 异议话术 -->
+        <section id="objections" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-comments text-2xl text-primary-500 mr-3"></i>
+                <h2 class="text-3xl font-bold">异议话术</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 异议话术卡片 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover transition-colors">
+                    <h3 class="text-lg font-semibold mb-3 text-primary-600 dark:text-primary-400">医生说益生菌不要乱吃，会打乱原来菌群系统</h3>
+                    <p class="text-gray-700 dark:text-gray-300">你知道为什么会这么讲？因为市面上小品牌产品所产生的益生菌并不在国家允许添加到婴幼儿食品菌种名单，你可以看看只有这十四个菌株是国家允许的。医生说益生菌不要乱吃会打乱原来菌群系统，一直以来都是一出生就用的菌株，都是国家指定可用的。而且合生元的菌株都是来自人体原籍，意思就是人体原来也有，吃了这种益生菌就能让肠道里益生菌量足够多，占据更多肠道粘膜，不让有害菌进来有机可乘，一旦没有位置给它停留就会排出体外，这样宝宝肠道才会保持健康，不容易中招腹泻便秘生病等。</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover transition-colors">
+                    <h3 class="text-lg font-semibold mb-3 text-primary-600 dark:text-primary-400">客户反馈别的益生菌效果真的好</h3>
+                    <p class="text-gray-700 dark:text-gray-300">凡是吃了马上有效果的益生菌更需要谨慎，药用菌看效果好但不能长期吃！有依赖性！还是选择国免允许添加到婴幼儿食品菌种名单的，再加原生菌就很难产生依赖！</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover transition-colors">
+                    <h3 class="text-lg font-semibold mb-3 text-primary-600 dark:text-primary-400">为什么开始吃益生菌会大便变稀变多？</h3>
+                    <p class="text-gray-700 dark:text-gray-300">这叫赫氏消亡反应，当调理肠道时有益菌和有害菌会相互竞争，有害菌死亡会释放毒素，双方竞争后毒素+死亡菌排出体外就会出现这种症状，先排毒再调理，后面就会好转；如果妈妈担心可酌情减量。</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover transition-colors">
+                    <h3 class="text-lg font-semibold mb-3 text-primary-600 dark:text-primary-400">为什么2岁以内小孩要补充益生菌？</h3>
+                    <p class="text-gray-700 dark:text-gray-300">因为0-2岁是宝宝肠道菌群建立的关键期，2岁后肠道菌群结构基本稳定。2岁前补充益生菌效果最好，能帮助建立健康的肠道菌群结构，减少腹泻便秘等问题。就像0-2岁宝宝肠道像新开的路边摊，特别敏感容易闹肚子，补充益生菌能帮助适应新食物，减少肠胃不适。</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover transition-colors">
+                    <h3 class="text-lg font-semibold mb-3 text-primary-600 dark:text-primary-400">你们益生菌太贵</h3>
+                    <p class="text-gray-700 dark:text-gray-300">养成每天喝奶茶的习惯容易，但养成宝宝终身健康的习惯更重要！每天两包益生菌的费用还不到一杯奶茶钱，却能预防生病去医院的花销。如果宝宝身体不舒服需要化验治疗，花费更多也更折腾。</p>
                 </div>
             </div>
         </section>
 
-        <!-- 多开味产品详情 -->
-        <section id="duokaiwei" class="mb-16 fade-in-section">
-            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">多开味</h2>
-            <div
-                class="bg-white dark:bg-neutral-850 rounded-xl shadow-linear-lg p-6 md:p-8 content-block border border-gray-100 dark:border-gray-800">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- 产品图片 -->
-                    <div class="flex items-center justify-center">
-                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 w-full max-w-xs">
-                            <img src="images/多开味产品图.png" alt="多开味益生菌" class="product-image h-40 mb-4 mx-auto block text-center">
-                            <h3 class="text-lg font-medium text-gray-800 dark:text-white text-center">多开味益生菌</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">¥120+120元赠品</p>
-                        </div>
-                    </div>
-
-                    <!-- 产品信息 -->
-                    <div class="md:col-span-2">
-                        <div class="space-y-6">
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-info-circle text-primary-500 mr-2"></i>产品介绍
-                                </h3>
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    合生元多开味是专为挑食宝宝设计的特殊配方益生菌，含有促进食欲的特殊菌株和天然提取物，能有效改善宝宝挑食、厌食问题，促进消化酶分泌，增强味觉敏感度，让宝宝重新爱上吃饭。
-                                </p>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                        <i class="fas fa-check text-green-500 mr-2"></i>适用人群
-                                    </h4>
-                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
-                                        <li>食欲不振的宝宝</li>
-                                        <li>挑食、厌食的儿童</li>
-                                        <li>消化功能弱的宝宝</li>
-                                        <li>偏食导致营养不良的儿童</li>
-                                    </ul>
-                                </div>
-
-                                <div>
-                                    <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                        <i class="fas fa-times text-red-500 mr-2"></i>不适宜人群
-                                    </h4>
-                                    <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
-                                        <li>对产品成分过敏者</li>
-                                        <li>急性胃肠炎患者</li>
-                                        <li>有特殊饮食限制的儿童</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-star text-yellow-500 mr-2"></i>产品特点
-                                </h4>
-                                <ul class="text-gray-600 dark:text-gray-300 space-y-1 pl-6 list-disc">
-                                    <li>特殊菌株组合，促进食欲</li>
-                                    <li>添加天然水果提取物，口感佳</li>
-                                    <li>促进消化酶分泌，改善消化功能</li>
-                                    <li>增强味觉敏感度，减少挑食行为</li>
-                                    <li>无添加色素和防腐剂</li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-comment text-blue-500 mr-2"></i>推荐话术
-                                </h4>
-                                <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
-                                    <p class="text-gray-700 dark:text-gray-300 italic">
-                                        "合生元多开味是专为挑食宝宝设计的特殊配方益生菌，含有促进食欲的特殊菌株和天然提取物，能有效改善宝宝挑食、厌食问题。它不仅能促进消化酶分泌，还能增强味觉敏感度，让宝宝重新爱上吃饭，是解决宝宝挑食问题的理想选择！"
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 class="font-medium text-gray-800 dark:text-white mb-2 flex items-center">
-                                    <i class="fas fa-question-circle text-purple-500 mr-2"></i>常见问题解答
-                                </h4>
-                                <div class="space-y-3">
-                                    <div>
-                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 多开味多久能见效？</p>
-                                        <p class="text-gray-600 dark:text-gray-300">A:
-                                            一般服用1-2周后可以看到明显改善，但每个宝宝情况不同，建议坚持服用1个月。</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 可以与其他益生菌一起服用吗？</p>
-                                        <p class="text-gray-600 dark:text-gray-300">A: 可以，但建议间隔30分钟以上，以获得最佳效果。</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-700 dark:text-gray-200">Q: 有年龄限制吗？</p>
-                                        <p class="text-gray-600 dark:text-gray-300">A: 适合1岁以上的宝宝，不同年龄段剂量有所不同，请按说明使用。</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <!-- 销售场景 -->
+        <section id="sales-scenarios" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-store text-2xl text-primary-500 mr-3"></i>
+                <h2 class="text-3xl font-bold">销售场景</h2>
+            </div>
+            
+            <!-- 乳铁销售场景 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8 transition-colors">
+                <h3 class="text-2xl font-semibold mb-4 text-primary-600 dark:text-primary-400 flex items-center">
+                    <i class="fas fa-capsules text-primary-500 mr-2"></i>
+                    乳铁销售场景
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">类别</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">引入话术</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">入诊技术</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">强化痛点</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">产品推荐</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">展示案例</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">关联大单</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-4">易呼吸道感染人群</td>
+                                <td class="px-4 py-4">"BB平常容易发烧或感冒或流涕吗？宝宝最近是不是感冒了，看他有点泉水（眼袋）？""我们最重要事情还是提高娃娃自身抵抗力，这样才不会容易被传染"</td>
+                                <td class="px-4 py-4">观察张嘴呼吸频率+眼袋深浅结合面诊看嘴型</td>
+                                <td class="px-4 py-4">生病一次=损失1个月体重增长反复生病导致发育迟缓免疫力差易感染肺炎、咳嗽、喉咙发炎</td>
+                                <td class="px-4 py-4">"睡前吃2包乳铁蛋白，提高呼吸道免疫""抗菌抗病毒，缓解发烧流涕症状"</td>
+                                <td class="px-4 py-4">客户证言："吃一周打呼噜明显减少！"对比数据：咳嗽频率↓70%</td>
+                                <td class="px-4 py-4">现在购买赠送用量指导手册（含6大场景方案）</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-4">鼻炎/腺样体肥大人群</td>
+                                <td class="px-4 py-4">"宝宝晚上会张开嘴巴呼吸吗？看您家宝宝眼袋很深呢""宝宝长吃二长吃八十多次猪肝？可以给我看看宝宝眼睑吗？""只要张开嘴巴呼吸，宝宝面容绝对会变丑"</td>
+                                <td class="px-4 py-4">检测张嘴呼吸+唇色变化观察眼睑苍白程度</td>
+                                <td class="px-4 py-4">长期张嘴导致腺样体面容（嘴唇变厚/牙齿不齐）大脑供氧不足→反应迟钝缺氧引发疲劳、头晕、心脏损伤</td>
+                                <td class="px-4 py-4">"乳铁蛋白促进铁吸收（80%吸收率）""改善贫血提升血氧量"</td>
+                                <td class="px-4 py-4">客户案例：6个月宝宝从拒食到主动进食截图展示：过敏鼻炎宝宝使用前后对比</td>
+                                <td class="px-4 py-4">推荐10盒装（日均成本￥12）</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-4">准备添加辅食BB/贫血人群</td>
+                                <td class="px-4 py-4">"宝宝最近吃猪肝频率？""让我们看看宝宝眼睑颜色""出现暗黄色小姨（贫血症状）要特别注意"</td>
+                                <td class="px-4 py-4">检查眼睑血色+血红蛋白检测观察嘴唇/指甲苍白程度</td>
+                                <td class="px-4 py-4">贫血导致内脏缺氧→智力发育受限缺铁影响免疫系统→反复感染长期贫血造成不可逆损伤</td>
+                                <td class="px-4 py-4">"乳铁蛋白双效防护：免疫+补铁""特别添加益生元，促进营养吸收"</td>
+                                <td class="px-4 py-4">成功案例：2周改善眼睑血色对比图：食用前后血红蛋白数值变化</td>
+                                <td class="px-4 py-4">组合销售：乳铁蛋白+益生菌（解决贫血+肠道问题）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- DHA销售场景 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 transition-colors">
+                <h3 class="text-2xl font-semibold mb-4 text-primary-600 dark:text-primary-400 flex items-center">
+                    <i class="fas fa-oil-can text-primary-500 mr-2"></i>
+                    DHA销售场景
+                </h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">DHA市场场景</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">引入话术</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">解决方案</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">产品推荐</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-4">非母乳喂养/混合喂养宝宝</td>
+                                <td class="px-4 py-4">"宝宝是混合喂养，母乳中DHA会快速下降，混合喂养/奶粉也需补充""DHA帮助宝宝大脑和视网膜发育更好"</td>
+                                <td class="px-4 py-4">"日常饮食多吃鱼虾藻类""选择含DHA的补充剂，含量100mg，比例接近1:1:1"</td>
+                                <td class="px-4 py-4">"合生元DHA-ARA核桃油配方""DHA:ARA=1:1，含FOS益生元，120粒装价格实惠"</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-4">认知/反应能力较弱宝宝</td>
+                                <td class="px-4 py-4">"9-14个月宝宝会叫爸妈，1岁懂简单词，2-3岁是学外语关键期""DHA影响大脑发育高峰期"</td>
+                                <td class="px-4 py-4">"宝宝多社交互动""选择含DHA+ARA的补充剂，含量100mg，比例科学"</td>
+                                <td class="px-4 py-4">"合生元DHA-油配方""专为认知发育设计，用户反馈改善脾气和反应能力"</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-4">孕妈</td>
+                                <td class="px-4 py-4">"孕期补充DHA很重要，6岁前是大脑发育关键期""妈妈孕反期间更需营养支持"</td>
+                                <td class="px-4 py-4">"孕期多吃鱼虾藻类""选择含DHA的补充剂，建议日均摄入量100mg""配合维生素B6缓解孕吐"</td>
+                                <td class="px-4 py-4">"合生元DHA-ARA核桃油配方""孕期+哺乳期适用，含ARA和DHA黄金比例，套餐组合更优惠"</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0ex94okp9j30uo0h6wov.jpg" alt="DHA销售场景2" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                    <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0ex94v4t7j30vh0fw46q.jpg" alt="DHA销售场景3" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
+                    <img src="https://cdn.ipfsscan.io/weibo/large/006OgSQdgy1i0ex953wfaj31g80sne5g.jpg" alt="DHA销售场景1" class="rounded-lg w-full h-auto shadow-sm hover:shadow-md transition-all duration-300">
                 </div>
             </div>
         </section>
+    </main>
 
-        <!-- 超金R71产品详情 -->
-        <section id="r71" class="mb-16 fade-in-section">
-            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">超金R71</h2>
-            <div
-                class="bg-white dark:bg-neutral-850 rounded-xl shadow-linear-lg p-6 md:p-8 content-block border border-gray-100 dark:border-gray-800">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- 产品图片 -->
-                    <div class="flex items-center justify-center">
-                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 w-full max-w-xs">
-                            <i class="fas fa-pills text-blue-500 text-8xl mb-4 mx-auto block text-center"></i>
-                            <h3
+    <!-- 页脚 -->
+    <footer class="bg-white dark:bg-gray-800 shadow-inner py-8 transition-colors">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-lg font-semibold mb-2">作者信息</h3>
+                    <p class="text-gray-600 dark:text-gray-300">作者姓名: 周航Johnny</p>
+                    <p class="text-gray-600 dark:text-gray-300">联系我: 2193023093@qq.com</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-500 dark:text-gray-400">© 2025 觅宝 - 专业母婴知识网. 保留所有权利.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 深色模式切换
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        // 检查系统偏好
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        
+        // 切换主题
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
